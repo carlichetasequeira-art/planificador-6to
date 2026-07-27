@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nica Planes 2026 - Generador Oficial</title>
+    <title>Nica Planes 2026 - Generador Inteligente para Docentes</title>
     <style>
         :root {
             --primary: #1e3a8a;
             --secondary: #0d9488;
-            --bg: #f1f5f9;
+            --bg: #f8fafc;
             --card: #ffffff;
             --text: #1e293b;
+            --accent: #b91c1c;
         }
 
         body {
@@ -26,18 +27,29 @@
             margin: 0 auto;
         }
 
-        #login-screen {
+        .card {
             background: var(--card);
-            padding: 40px;
+            padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+            border: 1px solid #e2e8f0;
+        }
+
+        h2 {
+            color: var(--primary);
             text-align: center;
-            max-width: 400px;
-            margin: 100px auto;
+            margin-top: 0;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
 
         .input-group {
-            margin-bottom: 15px;
+            margin-bottom: 18px;
             text-align: left;
         }
 
@@ -46,15 +58,17 @@
             margin-bottom: 6px;
             font-weight: 600;
             font-size: 14px;
+            color: #334155;
         }
 
-        select, input, textarea, button {
+        select, input, textarea {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #cbd5e1;
-            border-radius: 6px;
+            border-radius: 8px;
             box-sizing: border-box;
             font-size: 14px;
+            background-color: #fff;
         }
 
         textarea {
@@ -68,72 +82,44 @@
             border: none;
             font-weight: bold;
             cursor: pointer;
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(30, 58, 138, 0.2);
             transition: background 0.2s;
-            padding: 12px;
-            font-size: 15px;
         }
 
         button:hover {
             background-color: #1e40af;
         }
 
-        #main-app {
-            display: none;
-        }
-
-        .card {
-            background: var(--card);
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
         .plan-output {
             background: white;
-            padding: 25px;
+            padding: 40px;
             border: 1px solid #cbd5e1;
             border-radius: 8px;
             margin-top: 20px;
-        }
-
-        .pizarra-box {
-            border: 2px solid #334155;
-            padding: 15px;
-            border-radius: 8px;
-            background-color: #f8fafc;
-            margin-top: 15px;
-        }
-
-        .pizarra-header {
-            display: flex;
-            justify-content: space-between;
-            font-weight: bold;
-            border-bottom: 2px solid #334155;
-            padding-bottom: 8px;
-            margin-bottom: 12px;
+            line-height: 1.6;
         }
 
         .action-btns {
             display: flex;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 15px;
+            margin-top: 20px;
         }
 
-        .btn-copy { background-color: var(--secondary); }
-        .btn-copy:hover { background-color: #0f766e; }
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+        .btn-secondary:hover {
+            background-color: #0f766e;
+        }
 
         @media print {
             body { padding: 0; background: white; }
-            #login-screen, .card-controls, .action-btns, header { display: none !important; }
-            #main-app { display: block !important; }
-            .card { box-shadow: none; padding: 0; }
+            .card-controls, .action-btns, header { display: none !important; }
+            .card { box-shadow: none; padding: 0; border: none; }
             .plan-output { border: none; padding: 0; }
         }
     </style>
@@ -141,370 +127,186 @@
 <body>
 
 <div class="container">
+    <header style="margin-bottom: 20px; text-align: center;">
+        <h2>🇳🇮 Nica Planes 2026</h2>
+        <p style="color: #64748b; margin: 0;">Generador Oficial de Planes Diarios para Docentes</p>
+    </header>
 
-    <!-- PANTALLA DE ACCESO (CANDADO CON 100 CÓDIGOS) -->
-    <div id="login-screen">
-        <h2>🔒 Nica Planes 2026</h2>
-        <p>Ingrese su código de acceso autorizado:</p>
-        <div class="input-group">
-            <input type="text" id="access-key" placeholder="Ej. NX-7492-K">
-        </div>
-        <button onclick="checkAccess()">Ingresar al Sistema</button>
-        <p id="error-msg" style="color: red; display: none; margin-top: 10px;">Código incorrecto o no autorizado.</p>
-    </div>
-
-    <!-- PANEL PRINCIPAL -->
-    <div id="main-app">
-        <header style="margin-bottom: 20px; text-align: center;">
-            <h2>🇳🇮 Nica Planes 2026 - Generador Oficial</h2>
-            <p>Mallas Curriculares y Formatos Oficiales Actualizados</p>
-        </header>
-
-        <div class="card card-controls">
-            <div class="grid-2">
-                <div class="input-group">
-                    <label>Grado:</label>
-                    <select id="select-grado" onchange="cargarAsignaturas()">
-                        <option value="">-- Seleccione el Grado --</option>
-                        <option value="3">3.º Grado</option>
-                        <option value="4">4.º Grado</option>
-                        <option value="5">5.º Grado</option>
-                        <option value="6">6.º Grado</option>
-                    </select>
-                </div>
-
-                <div class="input-group">
-                    <label>Asignatura:</label>
-                    <select id="select-asignatura" onchange="cargarContenidosPredefinidos()">
-                        <option value="">-- Seleccione Asignatura --</option>
-                    </select>
-                </div>
-            </div>
-
+    <div class="card card-controls">
+        <div class="grid-2">
             <div class="input-group">
-                <label>Autocompletar desde Malla (Opcional):</label>
-                <select id="select-autocompletar" onchange="aplicarAutocompletado()">
-                    <option value="">-- Seleccione para autocompletar o escriba abajo --</option>
+                <label>Grado:</label>
+                <select id="grado">
+                    <option value="3er Grado">3.º Grado</option>
+                    <option value="4to Grado">4.º Grado</option>
+                    <option value="5to Grado">5.º Grado</option>
+                    <option value="6to Grado" selected>6.º Grado</option>
                 </select>
             </div>
 
             <div class="input-group">
-                <label>Nombre y número de Unidad:</label>
-                <input type="text" id="input-unidad" placeholder="Ej. Unidad II: Cuentos e historias">
-            </div>
-
-            <div class="input-group">
-                <label>Contenido:</label>
-                <input type="text" id="input-contenido" placeholder="Ej. El Cuento: Estructura e ideas principales">
-            </div>
-
-            <div class="input-group">
-                <label>Indicador de Logro:</label>
-                <textarea id="input-indicador" placeholder="Escriba o seleccione el indicador de logro..."></textarea>
-            </div>
-
-            <div class="grid-2">
-                <div class="input-group">
-                    <label>Fecha:</label>
-                    <input type="date" id="plan-fecha">
-                </div>
-                <div class="input-group">
-                    <label>Tiempo Total:</label>
-                    <input type="text" id="plan-tiempo" value="45 minutos">
-                </div>
-            </div>
-
-            <div class="grid-2">
-                <div class="input-group">
-                    <label>Instrumento de Evaluación:</label>
-                    <select id="select-instrumento">
-                        <option value="Lista de cotejo">Lista de cotejo</option>
-                        <option value="Rúbrica">Rúbrica</option>
-                        <option value="Escala de valoración">Escala de valoración</option>
-                    </select>
-                </div>
-                <div class="input-group">
-                    <label>Tiempo por Momentos (Inicio / Desarrollo / Culminación):</label>
-                    <input type="text" id="plan-tiempos-momentos" value="10 min / 25 min / 10 min">
-                </div>
-            </div>
-
-            <button onclick="generarPlan()">Generar Plan Diario</button>
-        </div>
-
-        <!-- VISTA PREVIA -->
-        <div class="card" id="result-card" style="display: none;">
-            <h3>Vista Previa del Plan Diario</h3>
-            <div id="plan-container" class="plan-output"></div>
-
-            <div class="action-btns">
-                <button class="btn-copy" onclick="copiarPlan()">📋 Copiar Plan</button>
-                <button onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>
+                <label>Asignatura:</label>
+                <select id="asignatura">
+                    <option value="Lengua y Literatura">Lengua y Literatura</option>
+                    <option value="Matemáticas">Matemáticas</option>
+                    <option value="Ciencias Naturales">Ciencias Naturales</option>
+                    <option value="Ciencias Sociales">Ciencias Sociales</option>
+                    <option value="Derecho y Dignidad de la Mujer">Derecho y Dignidad de la Mujer</option>
+                    <option value="Aprender Emprender y Prosperar">Aprender Emprender y Prosperar</option>
+                    <option value="Taller de Arte y Cultura">Taller de Arte y Cultura</option>
+                    <option value="Creciendo en Valores">Creciendo en Valores</option>
+                    <option value="Educación Física">Educación Física</option>
+                </select>
             </div>
         </div>
+
+        <div class="input-group">
+            <label>Nombre y número de Unidad:</label>
+            <input type="text" id="unidad" value="Unidad III: Ciudadanía, Historia y Desarrollo Comunitario">
+        </div>
+
+        <div class="input-group">
+            <label>Tema o Contenido Específico:</label>
+            <input type="text" id="contenido" placeholder="Ej. El Cuento Nicaragüense, Cálculo de Áreas, Ecosistemas...">
+        </div>
+
+        <div class="input-group">
+            <label>Indicador de Logro:</label>
+            <textarea id="indicador">Aplica con precisión los conceptos y procedimientos estudiados en situaciones prácticas del entorno escolar y comunitario.</textarea>
+        </div>
+
+        <div class="grid-2">
+            <div class="input-group">
+                <label>Fecha:</label>
+                <input type="date" id="fecha">
+            </div>
+            <div class="input-group">
+                <label>Instrumento de Evaluación:</label>
+                <select id="instrumento">
+                    <option value="Lista de cotejo">Lista de cotejo</option>
+                    <option value="Rúbrica">Rúbrica</option>
+                    <option value="Escala de valoración">Escala de valoración</option>
+                </select>
+            </div>
+        </div>
+
+        <button onclick="generarPlanDiario()">🚀 Generar Plan de Clase Completo</button>
     </div>
 
+    <!-- RESULTADO -->
+    <div class="card" id="result-card" style="display: none;">
+        <h3 style="color: var(--primary); border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-top:0;">📄 Plan Diario Oficial</h3>
+        <div id="plan-container" class="plan-output"></div>
+
+        <div class="action-btns">
+            <button class="btn-secondary" onclick="copiarTexto()">📋 Copiar al Portapapeles</button>
+            <button onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>
+        </div>
+    </div>
 </div>
 
 <script>
-    // LISTA DE LOS 100 CÓDIGOS AUTORIZADOS
-    const codigosAutorizados = [
-        "NX-7492-K", "TR-3105-M", "PL-7724-X", "FN-1092-Q", "RT-8421-B", "MK-5539-Z", "Lp-9014-W", "JH-2365-C", "XZ-4817-V", "QW-6632-F",
-        "BN-1284-H", "VC-9943-J", "ZX-3356-L", "DF-7120-P", "GH-5891-R", "JK-4029-T", "LK-6743-Y", "PO-1582-S", "IU-8934-D", "YT-2475-G",
-        "RE-9031-N", "WE-3142-B", "QW-5680-Z", "AS-7219-X", "DF-6438-M", "GH-1095-K", "JK-8374-J", "LZ-5291-H", "XC-3948-F", "VB-7015-D",
-        "NM-1823-S", "PL-4932-A", "OK-6150-Q", "IJ-2847-W", "UH-9304-E", "YG-3715-R", "TF-8490-T", "RD-5261-Y", "ES-1084-U", "WA-7639-I",
-        "QA-4018-O", "SZ-9251-P", "XD-2684-L", "CF-7130-K", "VG-5492-J", "BH-1839-H", "NJ-8045-G", "MK-3210-F", "LP-6582-D", "ZA-9034-S",
-        "SX-2149-A", "DC-7850-Q", "FV-4312-W", "GB-9604-E", "HN-1579-R", "JM-6281-T", "QZ-8932-Y", "WX-3450-U", "EC-7019-I", "RV-5264-O",
-        "TB-1893-P", "YN-6420-L", "UM-3075-K", "OP-9152-J", "AK-4781-H", "SL-2630-G", "DF-8094-F", "GH-1527-D", "JK-7368-S", "LZ-4190-A",
-        "XN-9632-Q", "VM-2054-W", "BR-6187-E", "CT-5410-R", "ZP-3891-T", "AL-7245-Y", "SK-1593-U", "DJ-8064-I", "FH-2931-O", "GY-6705-P",
-        "HX-4182-L", "JC-9350-K", "KL-1274-J", "QW-5892-H", "ER-3061-G", "TY-7420-F", "UI-6153-D", "OP-2894-S", "AS-9041-A", "DF-1675-Q",
-        "GH-7382-W", "JK-4920-E", "LZ-8153-R", "XCV-309-K", "BNM-714-L", "QWE-582-P", "RTY-936-M", "UIO-417-J", "ASD-628-H", "FGH-195-G"
-    ];
+    document.getElementById('fecha').valueAsDate = new Date();
 
-    // VERIFICAR ACCESO CON LOS CÓDIGOS (CORREGIDO)
-    function checkAccess() {
-        const key = document.getElementById("access-key").value.trim();
-        const errorMsg = document.getElementById("error-msg");
+    function generarPlanDiario() {
+        const grado = document.getElementById('grado').value;
+        const asignatura = document.getElementById('asignatura').value;
+        const unidad = document.getElementById('unidad').value;
+        const contenido = document.getElementById('contenido').value || "Tema central de la clase";
+        const indicador = document.getElementById('indicador').value;
+        const fecha = document.getElementById('fecha').value;
+        const instrumento = document.getElementById('instrumento').value;
 
-        if (codigosAutorizados.includes(key)) {
-            document.getElementById("login-screen").style.display = "none";
-            document.getElementById("main-app").style.display = "block";
-        } else {
-            errorMsg.style.display = "block";
-        }
-    }
+        let contenidoEspecificoHtml = "";
 
-    // BASE DE DATOS DE MALLAS CURRICULARES
-    const mallas = {
-        "3": {
-            "Lengua y Literatura": [
-                { unidad: "Unidad II: Cuentos E historias", indicador: "Aplica estrategias de comprensión lectora en la lectura de cuentos locales.", contenido: "El Cuento: Estructura e ideas principales." },
-                { unidad: "Unidad II: Cuentos E historias", indicador: "Redacta oraciones simples respetando las reglas ortográficas del uso de la mayúscula y el punto.", contenido: "La oración simple y ortografía." }
-            ],
-            "Matemática": [
-                { unidad: "Unidad II: Geometría y Medición", indicador: "Calcula el perímetro de figuras geométricas regulares aplicándolo a la vida cotidiana.", contenido: "Cálculo de Perímetro", p: "Hallar el perímetro de una parcela rectangular de 4m de largo y 2m de ancho.", s: "4m + 2m + 4m + 2m = 12m", c: "El perímetro es la suma de los lados de una figura.", ej: "Calcular el perímetro de un cuadrado de 3cm de lado.", e: "Pág. 45 ejercicios 1 y 2.", tarea: "Página 46" }
-            ],
-            "Ciencias Naturales": [
-                { unidad: "Unidad II: El Cuerpo Humano", indicador: "Identifica las principales funciones de los órganos vitales del cuerpo humano.", contenido: "Los Órganos Vitales" }
-            ],
-            "Estudios Sociales": [
-                { unidad: "Unidad II: Nuestra Comunidad", indicador: "Reconoce los principales hitos históricos y geográficos del municipio.", contenido: "Geografía y Mapa Local" }
-            ]
-        },
-        "4": {
-            "Lengua y Literatura": [
-                { unidad: "Unidad II: Textos Informativos", indicador: "Infiere la idea central en noticias y textos informativos breves.", contenido: "La Noticia: Estructura y análisis." }
-            ],
-            "Matemática": [
-                { unidad: "Unidad II: Fracciones", indicador: "Reconoce fracciones homogéneas y las representa gráficamente.", contenido: "Fracciones Homogéneas", p: "Representar 2/4 y 3/4 en una figura.", s: "Se divide la figura en 4 partes iguales y se pintan las indicadas.", c: "Las fracciones homogéneas tienen el mismo denominador.", ej: "Representar 1/3 y 2/3.", e: "Pág. 60 ejercicios A y B.", tarea: "Página 61" }
-            ],
-            "Ciencias Naturales": [
-                { unidad: "Unidad II: Los Ecosistemas", indicador: "Describe la flora y fauna característica de los ecosistemas locales.", contenido: "Ecosistemas de Nicaragua" }
-            ],
-            "Estudios Sociales": [
-                { unidad: "Unidad II: Regiones de Nicaragua", indicador: "Ubica geográficamente las regiones del país y sus características.", contenido: "Regiones del Pacífico y Central" }
-            ]
-        },
-        "5": {
-            "Lengua y Literatura": [
-                { unidad: "Unidad III: La Narrativa y sus Elementos", indicador: "Analiza los elementos narrativos (personajes, ambiente, tiempo) en mitos y leyendas nicaragüenses.", contenido: "La Leyenda Nicaragüense." }
-            ],
-            "Matemática": [
-                { unidad: "Unidad III: Decimales y Porcentajes", indicador: "Resuelve problemas de suma y resta con números decimales en contextos cotidianos.", contenido: "Suma de Decimales", p: "María compra 2.5 lb de arroz y 1.25 lb de azúcar. ¿Cuánto pesa la compra?", s: "  2.50\n+ 1.25\n------\n  3.75 lb", c: "Para sumar decimales se alinea la coma o punto decimal.", ej: "Sumar 4.2 + 3.15", e: "Pág. 82 ejercicios 1a y 1b.", tarea: "Página 83" }
-            ],
-            "Ciencias Naturales": [
-                { unidad: "Unidad III: La Materia y Energía", indicador: "Explica los estados físicos de la materia y sus transformaciones.", contenido: "Estados de la Materia" }
-            ],
-            "Estudios Sociales": [
-                { unidad: "Unidad III: Historia Nacional", indicador: "Examina los procesos históricos clave en la formación de la nación.", contenido: "Historia de Nicaragua" }
-            ]
-        },
-        "6": {
-            "Lengua y Literatura": [
-                { unidad: "Unidad III: Textos Expositivos y Argumentativos", indicador: "Redacta textos expositivos respetando la estructura de introducción, desarrollo y conclusión.", contenido: "El Ensayo Breve." }
-            ],
-            "Matemática": [
-                { unidad: "Unidad III: Áreas de Figuras Planas", indicador: "Calcula el área del triángulo y paralelogramo aplicando las fórmulas correspondientes.", contenido: "Área del Triángulo", p: "Calcular el área de un triángulo de base 6cm y altura 4cm.", s: "Área = (Base x Altura) / 2 = (6 x 4) / 2 = 12 cm²", c: "El área del triángulo es la mitad de la base por la altura.", ej: "Calcular el área si base=8cm y altura=5cm.", e: "Pág. 94 ejercicios 1 y 2.", tarea: "Página 95" }
-            ],
-            "Ciencias Naturales": [
-                { unidad: "Unidad III: El Universo y la Tierra", indicador: "Comprende los movimientos de la Tierra y las capas atmosféricas.", contenido: "Movimientos de la Tierra" }
-            ],
-            "Estudios Sociales": [
-                { unidad: "Unidad III: Cívica y Ciudadanía", indicador: "Analiza los derechos y deberes ciudadanos establecidos en la Constitución.", contenido: "Derechos Ciudadanos" }
-            ]
-        }
-    };
-
-    function cargarAsignaturas() {
-        const grado = document.getElementById("select-grado").value;
-        const selectAsig = document.getElementById("select-asignatura");
-        const selectAuto = document.getElementById("select-autocompletar");
-        
-        selectAsig.innerHTML = '<option value="">-- Seleccione Asignatura --</option>';
-        selectAuto.innerHTML = '<option value="">-- Seleccione para autocompletar o escriba abajo --</option>';
-
-        if (grado && mallas[grado]) {
-            Object.keys(mallas[grado]).forEach(asig => {
-                const opt = document.createElement("option");
-                opt.value = asig;
-                opt.textContent = asig;
-                selectAsig.appendChild(opt);
-            });
-        }
-    }
-
-    function cargarContenidosPredefinidos() {
-        const grado = document.getElementById("select-grado").value;
-        const asig = document.getElementById("select-asignatura").value;
-        const selectAuto = document.getElementById("select-autocompletar");
-
-        selectAuto.innerHTML = '<option value="">-- Seleccione para autocompletar o escriba abajo --</option>';
-
-        if (grado && asig && mallas[grado][asig]) {
-            mallas[grado][asig].forEach((item, index) => {
-                const opt = document.createElement("option");
-                opt.value = index;
-                opt.textContent = `${item.unidad} - ${item.contenido}`;
-                selectAuto.appendChild(opt);
-            });
-        }
-    }
-
-    function aplicarAutocompletado() {
-        const grado = document.getElementById("select-grado").value;
-        const asig = document.getElementById("select-asignatura").value;
-        const idx = document.getElementById("select-autocompletar").value;
-
-        if (idx !== "" && grado && asig) {
-            const data = mallas[grado][asig][idx];
-            document.getElementById("input-unidad").value = data.unidad || "";
-            document.getElementById("input-contenido").value = data.contenido || "";
-            document.getElementById("input-indicador").value = data.indicador || "";
-        }
-    }
-
-    function generarPlan() {
-        const grado = document.getElementById("select-grado").value;
-        const asig = document.getElementById("select-asignatura").value;
-        const unidad = document.getElementById("input-unidad").value;
-        const contenido = document.getElementById("input-contenido").value;
-        const indicador = document.getElementById("input-indicador").value;
-        const fecha = document.getElementById("plan-fecha").value || "Por definir";
-        const tiempo = document.getElementById("plan-tiempo").value;
-        const instrumento = document.getElementById("select-instrumento").value;
-        const tiemposMomentos = document.getElementById("plan-tiempos-momentos").value;
-
-        if (!grado || !asig) {
-            alert("Por favor seleccione Grado y Asignatura.");
-            return;
-        }
-
-        const container = document.getElementById("plan-container");
-        let html = "";
-
-        // FORMATO DE MATEMÁTICA (PLAN DE PIZARRA)
-        if (asig === "Matemática") {
-            let p = "Resolver la situación problemática planteada.", s = "Aplicación del algoritmo correspondiente.", c = "Conclusión matemática de la clase.", ej = "Ejemplo guiado.", e = "Ejercicios propuestos en el texto.", tarea = "Página asignada.";
-            if(mallas[grado]["Matemática"]) {
-                const match = mallas[grado]["Matemática"].find(m => m.contenido === contenido);
-                if(match) { p = match.p; s = match.s; c = match.c; ej = match.ej; e = match.e; tarea = match.tarea; }
-            }
-
-            html = `
-                <h3 style="text-align:center; margin-top:0;">Formato para la elaboración del plan de clase de matemática</h3>
-                <p><strong>Asignatura:</strong> Matemática &nbsp;&nbsp;&nbsp; <strong>Grado:</strong> ${grado}.º &nbsp;&nbsp;&nbsp; <strong>Fecha:</strong> ${fecha} &nbsp;&nbsp;&nbsp; <strong>Tiempo:</strong> ${tiempo} (${tiemposMomentos})</p>
-                <p><strong>Nombre y número de Unidad:</strong> ${unidad || "Unidad de Matemática"}</p>
-                <p><strong>Indicador de Logro:</strong> ${indicador || "Indicador matemático"}</p>
-                <p><strong>Contenido:</strong> ${contenido || "Contenido matemático"}</p>
-                <p><strong>I. Criterios de Evaluación:</strong></p>
+        // Generación rica según la asignatura seleccionada para evitar planes pobres
+        if (asignatura === "Lengua y Literatura") {
+            contenidoEspecificoHtml = `
+                <p><strong>Lectura Modelo / Texto Base:</strong></p>
+                <blockquote style="background: #fdf4ff; border-left: 4px solid #a855f7; padding: 12px 15px; margin: 10px 0; font-style: italic;">
+                    «La Leyenda y la Tradición de Nuestra Tierra»<br>
+                    En las comunidades de nuestra hermosa Nicaragua, las historias de antaño se transmiten de generación en generación. Los ancianos relatan con orgullo los sucesos que dan identidad a nuestros pueblos, enseñando valores de respeto, unión y amor por las raíces culturales. Analizar estos textos nos permite valorar la riqueza de nuestro lenguaje y mejorar nuestra expresión oral y escrita.
+                </blockquote>
+                <p><strong>Guía de Comprensión Lectora (Basada en el texto anterior):</strong></p>
                 <ul>
-                    <li>• Comprende con claridad la situación problemática planteada.</li>
-                    <li>• Aplica correctamente el procedimiento matemático en la solución.</li>
-                    <li>• Muestra interés, orden y perseverancia en la resolución.</li>
+                    <li><strong>Nivel Literal:</strong> ¿Qué propósito tienen las historias de antaño según el texto y dónde se transmiten?</li>
+                    <li><strong>Nivel Inferencial:</strong> ¿Por qué es importante mantener viva la tradición oral en las comunidades nicaragüenses?</li>
+                    <li><strong>Nivel Crítico:</strong> ¿De qué manera puedes compartir las leyendas o tradiciones de tu propia comunidad con tus compañeros?</li>
                 </ul>
-                <p><strong>Instrumento de evaluación:</strong> ${instrumento}</p>
-
-                <!-- CUADRO PLAN DE PIZARRA -->
-                <div class="pizarra-box">
-                    <div class="pizarra-header">
-                        <span>${unidad}</span>
-                        <span>${fecha}</span>
-                    </div>
-                    <p><strong>SXCX: ${contenido}</strong></p>
-                    <p><strong>(P) Problema:</strong> ${p}</p>
-                    <p><strong>(S) Solución:</strong><br>${s.replace(/\n/g, '<br>')}</p>
-                    <p><strong>(C) Conclusión:</strong> ${c}</p>
-                    <p><strong>(Ej) Ejemplo:</strong> ${ej}</p>
-                    <p><strong>(E) Ejercicios:</strong> ${e}</p>
-                    <p style="text-align:right;"><strong>Tarea:</strong> ${tarea}</p>
+            `;
+        } else if (asignatura === "Matemáticas") {
+            contenidoEspecificoHtml = `
+                <div style="border: 2px solid #1e293b; padding: 15px; border-radius: 8px; background: #f8fafc; margin-top: 10px;">
+                    <p style="margin-top:0; font-weight:bold; color:var(--primary);">📝 PLAN DE PIZARRA MATEMÁTICO</p>
+                    <p><strong>(P) Problema / Situación:</strong> Resolver el caso práctico aplicando el concepto de (${contenido}).</p>
+                    <p><strong>(S) Solución paso a paso:</strong> Identificación de datos, selección de la operación correcta y ejecución del algoritmo matemático.</p>
+                    <p><strong>(C) Conclusión:</strong> Regla matemática o propiedad aplicada para resolver ejercicios similares.</p>
+                    <p><strong>(Ej) Ejemplo guiado:</strong> Resolución en la pizarra con participación activa de los estudiantes.</p>
+                    <p><strong>(E) Ejercicios propuestos:</strong> Práctica en el cuaderno de actividades del estudiante.</p>
                 </div>
-
-                <p style="margin-top:15px;"><strong>Adecuación curricular para niños con dificultades de lectoescritura:</strong> Uso de material concreto, apoyo visual adicional, lectura guiada de los enunciados de los problemas y desglose de operaciones en pasos cortos.</p>
-                <p style="margin-top:10px;"><strong>Observaciones:</strong> __________________________________________________</p>
             `;
-        } 
-        // FORMATO DETALLADO DE LENGUA Y LITERATURA / OTRAS MATERIAS
-        else {
-            html = `
-                <h3 style="text-align:center; margin-top:0;">Plan Diario Asignatura</h3>
-                <p><strong>Plan Diario Asignatura:</strong> ${asig}</p>
-                <p><strong>Fecha:</strong> ${fecha} &nbsp;&nbsp;&nbsp; <strong>Tiempo:</strong> ${tiempo} (${tiemposMomentos}) &nbsp;&nbsp;&nbsp; <strong>Grado:</strong> ${grado}.º</p>
-                <p><strong>Nombre y número de Unidad:</strong> ${unidad || "Unidad correspondiente"}</p>
-                <p><strong>Indicador de logro:</strong> ${indicador || "Indicador correspondiente"}</p>
-                <p><strong>Contenido:</strong> ${contenido || "Contenido correspondiente"}</p>
-
-                <p><strong>I. Criterios de Evaluación:</strong></p>
+        } else {
+            contenidoEspecificoHtml = `
+                <p><strong>Desarrollo Teórico y Conceptual (${asignatura}):</strong></p>
+                <p>Abordaje integral del contenido <strong>${contenido}</strong> mediante exposición dialogada, análisis de láminas o esquemas visuales, relacionando la teoría directamente con el entorno cotidiano de los estudiantes en Nicaragua.</p>
+                <p><strong>Preguntas de Análisis y Reflexión:</strong></p>
                 <ul>
-                    <li>• *Conceptual: Identifica y comprende la estructura y conceptos clave de (${contenido}).</li>
-                    <li>• *Procedimental: Aplica estrategias de análisis, lectura y producción de textos de forma coherente.</li>
-                    <li>• *Actitudinal: Muestra respeto, participación activa y colaboración en las dinámicas grupales.</li>
+                    <li>¿Qué elementos principales definen el tema estudiado?</li>
+                    <li>¿Cómo impacta este conocimiento en nuestra vida diaria y comunitaria?</li>
                 </ul>
-                <p><strong>Instrumento de evaluación:</strong> ${instrumento}</p>
-
-                <p><strong>II. Actividades de Inicio:</strong></p>
-                <ul>
-                    <li>• Saludo de bienvenida: Intercambio afectuoso y cordial con los estudiantes.</li>
-                    <li>• Oración a Dios: Agradecimiento y encomienda del día en un ambiente de respeto.</li>
-                    <li>• Entonar el Himno Nacional: Fomento de los valores patrios e identidad nacional.</li>
-                    <li>• Dinámica para recordar tema anterior: Preguntas exploratorias y retroalimentación breve.</li>
-                    <li>• Revisión de tarea y asistencia: Verificación del cumplimiento de responsabilidades en casa.</li>
-                    <li>• Dar a conocer el tema e indicador: Explicación clara de lo que se aprenderá hoy (${contenido}).</li>
-                </ul>
-
-                <p><strong>III. Actividades de Desarrollo:</strong></p>
-                <ul>
-                    <li>• Presentación de lámina: Exhibición de recurso visual relacionado con (${contenido}).</li>
-                    <li>• Discriminación de imagen: Análisis guiado sobre los elementos observados en la lámina.</li>
-                    <li>• Dinámica de opinión (Lluvia de ideas, etc.): Intervención abierta para conocer las impresiones del grupo.</li>
-                    <li>• Lectura Modelo (Docente): Demostración de entonación, pausas y modulación de voz por parte del profesor.</li>
-                    <li>&nbsp;&nbsp;&nbsp;&nbsp;- Lectura Silenciosa y Coral: Práctica individual y conjunta del texto de estudio.</li>
-                    <li>&nbsp;&nbsp;&nbsp;&nbsp;- Comentarios Orales: Plenaria sobre las ideas principales captadas en la lectura.</li>
-                    <li>&nbsp;&nbsp;&nbsp;&nbsp;- Escritura: Registro de apuntes esenciales en los cuadernos de trabajo.</li>
-                    <li>&nbsp;&nbsp;&nbsp;&nbsp;- Trabajo en Parejas o grupos (Comprensión Lectora): En pares o grupos, los alumnos resuelven la siguiente guía en sus cuadernos:</li>
-                    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;• Nivel Literal: ¿Qué información explícita se destaca en el texto estudiado?</li>
-                    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;• Nivel Inferencial: ¿Qué deducciones o relaciones lógicas podemos extraer del contenido?</li>
-                    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;• Nivel Crítico: ¿Cuál es su opinión fundamentada acerca de la temática abordada?</li>
-                    <li>• Explicación del Docente: Consolidación teórica y aclaración de conceptos complejos sobre (${contenido}).</li>
-                </ul>
-
-                <p><strong>IV. Actividades de Culminación y Evaluación:</strong></p>
-                <ul>
-                    <li>• Culminación: Síntesis global de la jornada y conclusiones generales en plenaria.</li>
-                    <li>• Evaluación: Aplicación de la herramienta de evaluación (${instrumento}) para verificar el logro del indicador.</li>
-                    <li>• Tarea: Asignación de ejercicio complementario para afianzar el contenido en casa.</li>
-                </ul>
-
-                <p><strong>Adecuación curricular para niños con dificultades de lectoescritura:</strong> Asignación de un tutor par de apoyo, facilitación de textos con tipografía ampliada o fragmentos más cortos, uso de esquemas gráficos y flexibilidad en los tiempos de ejecución de lectura y escritura.</p>
             `;
         }
 
-        container.innerHTML = html;
-        document.getElementById("result-card").style.display = "block";
+        const htmlFinal = `
+            <h4 style="text-align:center; color: #1e3a8a; margin-bottom: 5px;">MINISTERIO DE EDUCACIÓN - PLAN DIARIO DE CLASE</h4>
+            <hr style="border: 0; border-top: 1px solid #cbd5e1; margin-bottom: 15px;">
+            <p><strong>Plan Diario Asignatura:</strong> ${asignatura} &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Fecha:</strong> ${fecha} &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Grado:</strong> ${grado}</p>
+            <p><strong>Tiempo:</strong> 45 minutos (Inicio: 10 min | Desarrollo: 25 min | Culminación: 10 min)</p>
+            <p><strong>Nombre y número de Unidad:</strong> ${unidad}</p>
+            <p><strong>Contenido:</strong> ${contenido}</p>
+            <p><strong>Indicador de logro:</strong> ${indicador}</p>
+            
+            <p><strong>Criterios de evaluación:</strong></p>
+            <ul>
+                <li><strong>*Conceptual:</strong> Comprende con claridad los conceptos, reglas y datos clave de (${contenido}).</li>
+                <li><strong>*Procedimental:</strong> Aplica correctamente los pasos, técnicas o fórmulas correspondientes en los ejercicios y dinámicas.</li>
+                <li><strong>*Actitudinal:</strong> Muestra respeto, colaboración, orden y entusiasmo durante el trabajo en clase.</li>
+            </ul>
+
+            <p><strong>Actividades de inicio:</strong></p>
+            <ul>
+                <li>Saludo afectuoso de bienvenida y control de asistencia.</li>
+                <li>Oración de agradecimiento y entonación del Himno Nacional.</li>
+                <li>Dinámica breve de activación mental o retroalimentación del tema anterior.</li>
+            </ul>
+
+            <p><strong>Actividades de desarrollo:</strong></p>
+            <ul>
+                <li>Presentación motivacional del contenido: <strong>${contenido}</strong> vinculándolo con nuestra realidad.</li>
+                <li>Explicación magistral y ejemplificación guiada por parte del docente.</li>
+                <li>${contenidoEspecificoHtml}</li>
+                <li>Trabajo colaborativo en parejas o equipos para afianzar el aprendizaje.</li>
+            </ul>
+
+            <p><strong>Actividades de Culminación:</strong></p>
+            <ul>
+                <li>Plenaria general con participación de los estudiantes para compartir conclusiones.</li>
+                <li>Aplicación del instrumento de evaluación formativa: <strong>${instrumento}</strong>.</li>
+                <li>Síntesis final de la jornada por parte del profesor.</li>
+            </ul>
+
+            <p><strong>Tarea:</strong> Resolver ejercicios complementarios en el hogar relacionados con (${contenido}).</p>
+            
+            <p><strong>Adecuación curricular para niños con dificultades:</strong> Brindar acompañamiento personalizado, utilizar apoyo visual esquemático, simplificar la consigna de trabajo y dar flexibilidad de tiempo según el ritmo del estudiante.</p>
+        `;
+
+        document.getElementById('plan-container').innerHTML = htmlFinal;
+        document.getElementById('result-card').style.display = 'block';
     }
 
-    function copiarPlan() {
-        const text = document.getElementById("plan-container").innerText;
-        navigator.clipboard.writeText(text).then(() => {
+    function copiarTexto() {
+        const texto = document.getElementById('plan-container').innerText;
+        navigator.clipboard.writeText(texto).then(() => {
             alert("¡Plan copiado al portapapeles con éxito!");
         });
     }
@@ -512,3 +314,4 @@
 
 </body>
 </html>
+
