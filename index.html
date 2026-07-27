@@ -142,15 +142,15 @@
 
 <div class="container">
 
-    <!-- PANTALLA DE ACCESO -->
+    <!-- PANTALLA DE ACCESO (CANDADO CON 100 CÓDIGOS) -->
     <div id="login-screen">
         <h2>🔒 Nica Planes 2026</h2>
-        <p>Ingrese su clave de acceso docente:</p>
+        <p>Ingrese su código de acceso autorizado:</p>
         <div class="input-group">
-            <input type="password" id="access-key" placeholder="Contraseña...">
+            <input type="password" id="access-key" placeholder="Código de acceso...">
         </div>
         <button onclick="checkAccess()">Ingresar al Sistema</button>
-        <p id="error-msg" style="color: red; display: none; margin-top: 10px;">Clave incorrecta. Intente de nuevo.</p>
+        <p id="error-msg" style="color: red; display: none; margin-top: 10px;">Código incorrecto o no autorizado.</p>
     </div>
 
     <!-- PANEL PRINCIPAL -->
@@ -166,10 +166,10 @@
                     <label>Grado:</label>
                     <select id="select-grado" onchange="cargarAsignaturas()">
                         <option value="">-- Seleccione el Grado --</option>
-                        <option value="3">3.º Grado (II Unidad)</option>
-                        <option value="4">4.º Grado (II Unidad)</option>
-                        <option value="5">5.º Grado (III Unidad)</option>
-                        <option value="6">6.º Grado (III Unidad)</option>
+                        <option value="3">3.º Grado</option>
+                        <option value="4">4.º Grado</option>
+                        <option value="5">5.º Grado</option>
+                        <option value="6">6.º Grado</option>
                     </select>
                 </div>
 
@@ -247,6 +247,31 @@
 </div>
 
 <script>
+    // LISTA DE LOS 100 CÓDIGOS AUTORIZADOS
+    const codigosAutorizados = [
+        "NX-7492-K", "TR-3105-M", "PL-7724-X", "FN-1092-Q", "RT-8421-B", "MK-5539-Z", "Lp-9014-W", "JH-2365-C", "XZ-4817-V", "QW-6632-F",
+        "BN-1284-H", "VC-9943-J", "ZX-3356-L", "DF-7120-P", "GH-5891-R", "JK-4029-T", "LK-6743-Y", "PO-1582-S", "IU-8934-D", "YT-2475-G",
+        "RE-9031-N", "WE-3142-B", "QW-5680-Z", "AS-7219-X", "DF-6438-M", "GH-1095-K", "JK-8374-J", "LZ-5291-H", "XC-3948-F", "VB-7015-D",
+        "NM-1823-S", "PL-4932-A", "OK-6150-Q", "IJ-2847-W", "UH-9304-E", "YG-3715-R", "TF-8490-T", "RD-5261-Y", "ES-1084-U", "WA-7639-I",
+        "QA-4018-O", "SZ-9251-P", "XD-2684-L", "CF-7130-K", "VG-5492-J", "BH-1839-H", "NJ-8045-G", "MK-3210-F", "LP-6582-D", "ZA-9034-S",
+        "SX-2149-A", "DC-7850-Q", "FV-4312-W", "GB-9604-E", "HN-1579-R", "JM-6281-T", "QZ-8932-Y", "WX-3450-U", "EC-7019-I", "RV-5264-O",
+        "TB-1893-P", "YN-6420-L", "UM-3075-K", "OP-9152-J", "AK-4781-H", "SL-2630-G", "DF-8094-F", "GH-1527-D", "JK-7368-S", "LZ-4190-A",
+        "XN-9632-Q", "VM-2054-W", "BR-6187-E", "CT-5410-R", "ZP-3891-T", "AL-7245-Y", "SK-1593-U", "DJ-8064-I", "FH-2931-O", "GY-6705-P",
+        "HX-4182-L", "JC-9350-K", "KL-1274-J", "QW-5892-H", "ER-3061-G", "TY-7420-F", "UI-6153-D", "OP-2894-S", "AS-9041-A", "DF-1675-Q",
+        "GH-7382-W", "JK-4920-E", "LZ-8153-R", "XCV-309-K", "BNM-714-L", "QWE-582-P", "RTY-936-M", "UIO-417-J", "ASD-628-H", "FGH-195-G"
+    ];
+
+    // VERIFICAR ACCESO CON LOS CÓDIGOS
+    function checkAccess() {
+        const key = document.getElementById("access-key").value.trim();
+        if (codigosAutorizados.includes(key)) {
+            document.getElementById("login-screen").style.display = "none";
+            document.getElementById("main-app").style.display = "block";
+        } else {
+            document.getElementById("error-msg").style.display = "block";
+        }
+    }
+
     // BASE DE DATOS DE MALLAS CURRICULARES
     const mallas = {
         "3": {
@@ -272,7 +297,7 @@
                 { unidad: "Unidad II: Fracciones", indicador: "Reconoce fracciones homogéneas y las representa gráficamente.", contenido: "Fracciones Homogéneas", p: "Representar 2/4 y 3/4 en una figura.", s: "Se divide la figura en 4 partes iguales y se pintan las indicadas.", c: "Las fracciones homogéneas tienen el mismo denominador.", ej: "Representar 1/3 y 2/3.", e: "Pág. 60 ejercicios A y B.", tarea: "Página 61" }
             ],
             "Ciencias Naturales": [
-                { unidad: "Unidad II: Los Eecosistemas", indicador: "Describe la flora y fauna característica de los ecosistemas locales.", contenido: "Eecosistemas de Nicaragua" }
+                { unidad: "Unidad II: Los Ecosistemas", indicador: "Describe la flora y fauna característica de los ecosistemas locales.", contenido: "Ecosistemas de Nicaragua" }
             ],
             "Estudios Sociales": [
                 { unidad: "Unidad II: Regiones de Nicaragua", indicador: "Ubica geográficamente las regiones del país y sus características.", contenido: "Regiones del Pacífico y Central" }
@@ -307,16 +332,6 @@
             ]
         }
     };
-
-    function checkAccess() {
-        const key = document.getElementById("access-key").value;
-        if (key === "nica2026") {
-            document.getElementById("login-screen").style.display = "none";
-            document.getElementById("main-app").style.display = "block";
-        } else {
-            document.getElementById("error-msg").style.display = "block";
-        }
-    }
 
     function cargarAsignaturas() {
         const grado = document.getElementById("select-grado").value;
@@ -387,7 +402,6 @@
 
         // FORMATO DE MATEMÁTICA (PLAN DE PIZARRA)
         if (asig === "Matemática") {
-            // Buscamos datos matemáticos precargados si existen, o usamos genéricos
             let p = "Resolver la situación problemática planteada.", s = "Aplicación del algoritmo correspondiente.", c = "Conclusión matemática de la clase.", ej = "Ejemplo guiado.", e = "Ejercicios propuestos en el texto.", tarea = "Página asignada.";
             if(mallas[grado]["Matemática"]) {
                 const match = mallas[grado]["Matemática"].find(m => m.contenido === contenido);
@@ -396,7 +410,7 @@
 
             html = `
                 <h3 style="text-align:center; margin-top:0;">Formato para la elaboración del plan de clase de matemática</h3>
-                <p><strong>Asignatura:</strong> Matemática &nbsp;&nbsp;&nbsp; <strong>Grado:</strong> ${grado}.º &nbsp;&nbsp;&nbsp; <strong>Fecha:</strong> ${fecha} &nbsp;&nbsp;&nbsp; <strong>Tiempo:</strong> ${tiempo}</p>
+                <p><strong>Asignatura:</strong> Matemática &nbsp;&nbsp;&nbsp; <strong>Grado:</strong> ${grado}.º &nbsp;&nbsp;&nbsp; <strong>Fecha:</strong> ${fecha} &nbsp;&nbsp;&nbsp; <strong>Tiempo:</strong> ${tiempo} (${tiemposMomentos})</p>
                 <p><strong>Nombre y número de Unidad:</strong> ${unidad || "Unidad de Matemática"}</p>
                 <p><strong>Indicador de Logro:</strong> ${indicador || "Indicador matemático"}</p>
                 <p><strong>Contenido:</strong> ${contenido || "Contenido matemático"}</p>
@@ -405,29 +419,4 @@
                     <li>• Comprende con claridad la situación problemática planteada.</li>
                     <li>• Aplica correctamente el procedimiento matemático en la solución.</li>
                     <li>• Muestra interés, orden y perseverancia en la resolución.</li>
-                </ul>
-                <p><strong>Instrumento de evaluación:</strong> ${instrumento}</p>
-
-                <!-- CUADRO PLAN DE PIZARRA -->
-                <div class="pizarra-box">
-                    <div class="pizarra-header">
-                        <span>${unidad}</span>
-                        <span>${fecha}</span>
-                    </div>
-                    <p><strong>SXCX: ${contenido}</strong></p>
-                    <p><strong>(P) Problema:</strong> ${p}</p>
-                    <p><strong>(S) Solución:</strong><br>${s.replace(/\n/g, '<br>')}</p>
-                    <p><strong>(C) Conclusión:</strong> ${c}</p>
-                    <p><strong>(Ej) Ejemplo:</strong> ${ej}</p>
-                    <p><strong>(E) Ejercicios:</strong> ${e}</p>
-                    <p style="text-align:right;"><strong>Tarea:</strong> ${tarea}</p>
-                </div>
-
-                <p style="margin-top:15px;"><strong>Adecuación curricular para niños con dificultades de lectoescritura:</strong> Uso de material concreto, apoyo visual adicional, lectura guiada de los enunciados de los problemas y desglose de operaciones en pasos cortos.</p>
-                <p style="margin-top:10px;"><strong>Observaciones:</strong> __________________________________________________</p>
-            `;
-        } 
-        // FORMATO DETALLADO DE LENGUA Y LITERATURA / OTRAS MATERIAS
-        else {
-            html = `
-                <h3 style="tex
+        
