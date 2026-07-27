@@ -3,443 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nica Planes 2026 - Generador Inteligente para Docentes</title>
+    <title>Nica Planes 2026 - Lengua y Literatura</title>
     <style>
-        :root {
-            --primary: #1e3a8a;
-            --secondary: #0d9488;
-            --bg: #f8fafc;
-            --card: #ffffff;
-            --text: #1e293b;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .card {
-            background: var(--card);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-            margin-bottom: 25px;
-            border: 1px solid #e2e8f0;
-        }
-
-        h2 {
-            color: var(--primary);
-            text-align: center;
-            margin-top: 0;
-        }
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .input-group {
-            margin-bottom: 18px;
-            text-align: left;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: 600;
-            font-size: 14px;
-            color: #334155;
-        }
-
-        select, input, textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-size: 14px;
-            background-color: #fff;
-        }
-
-        textarea {
-            resize: vertical;
-            height: 90px;
-        }
-
-        button {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            padding: 14px;
-            font-size: 16px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px -1px rgba(30, 58, 138, 0.2);
-            transition: background 0.2s;
-        }
-
-        button:hover {
-            background-color: #1e40af;
-        }
-
-        .plan-output {
-            background: white;
-            padding: 40px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            margin-top: 20px;
-            line-height: 1.7;
-            text-align: left;
-        }
-
-        .plan-output h3, .plan-output h4 {
-            color: var(--primary);
-            margin-top: 20px;
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 5px;
-        }
-
-        .action-btns {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .btn-secondary {
-            background-color: var(--secondary);
-        }
-        .btn-secondary:hover {
-            background-color: #0f766e;
-        }
-
-        #contador-creditos {
-            background: #fef3c7;
-            border: 1px solid #f59e0b;
-            color: #92400e;
-            padding: 10px;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        @media print {
-            body { padding: 0; background: white; }
-            .card-controls, .action-btns, header { display: none !important; }
-            .card { box-shadow: none; padding: 0; border: none; }
-            .plan-output { border: none; padding: 0; }
-        }
+        body { font-family: Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; text-align: center; }
+        label { font-weight: bold; display: block; margin-top: 15px; color: #34495e; }
+        input, select, textarea { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        button { background-color: #27ae60; color: white; border: none; padding: 12px 20px; font-size: 16px; border-radius: 5px; cursor: pointer; margin-top: 20px; width: 100%; }
+        button:hover { background-color: #219653; }
+        #resultado { margin-top: 25px; padding: 20px; background: #ecf0f1; border-radius: 5px; white-space: pre-wrap; line-height: 1.5; }
+        .creditos { text-align: right; font-size: 14px; color: #7f8c8d; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <header style="margin-bottom: 20px; text-align: center;">
-        <h2>🇳🇮 Nica Planes 2026</h2>
-        <p style="color: #64748b; margin: 0;">Generador Inteligente de Planes Diarios para Docentes</p>
-    </header>
+    <h1>Nica Planes 2026</h1>
+    <div class="creditos" id="contadorCreditos">Créditos disponibles: 5</div>
 
-    <div class="card card-controls">
-        <div id="contador-creditos">⚡ Cargando estado de créditos...</div>
+    <label for="apiKey">Clave de API de Gemini:</label>
+    <input type="password" id="apiKey" placeholder="Pega tu API Key de Google AI Studio aquí">
 
-        <div class="grid-2">
-            <div class="input-group">
-                <label>Grado:</label>
-                <select id="grado" onchange="autocompletarCurriculo()">
-                    <option value="3er Grado">3.º Grado</option>
-                    <option value="4to Grado">4.º Grado</option>
-                    <option value="5to Grado">5.º Grado</option>
-                    <option value="6to Grado" selected>6.º Grado</option>
-                </select>
-            </div>
+    <label for="grado">Grado:</label>
+    <input type="text" id="grado" value="Quinto Grado" placeholder="Ej. Quinto Grado o Sexto Grado">
 
-            <div class="input-group">
-                <label>Asignatura:</label>
-                <select id="asignatura" onchange="autocompletarCurriculo()">
-                    <option value="Lengua y Literatura" selected>Lengua y Literatura</option>
-                    <option value="Matemáticas">Matemáticas</option>
-                    <option value="Ciencias Naturales">Ciencias Naturales</option>
-                    <option value="Ciencias Sociales">Ciencias Sociales</option>
-                    <option value="Derecho y Dignidad de la Mujer">Derecho y Dignidad de la Mujer</option>
-                    <option value="Aprender Emprender y Prosperar">Aprender Emprender y Prosperar</option>
-                    <option value="Taller de Arte y Cultura">Taller de Arte y Cultura</option>
-                    <option value="Creciendo en Valores">Creciendo en Valores</option>
-                    <option value="Educación Física">Educación Física</option>
-                </select>
-            </div>
-        </div>
+    <label for="contenido">Indicador de logro y Contenido principal:</label>
+    <textarea id="contenido" rows="3" placeholder="Ej. Analizar la estructura del cuento y su comprensión lectora..."></textarea>
 
-        <div class="input-group">
-            <label>Nombre y número de Unidad:</label>
-            <input type="text" id="unidad" placeholder="Ej. Unidad III: Ciudadanía, Historia y Desarrollo Comunitario">
-        </div>
+    <button onclick="generarPlan()">Generar Plan de Lengua y Literatura con IA</button>
 
-        <div class="input-group">
-            <label>Tema o Contenido Específico:</label>
-            <input type="text" id="contenido" placeholder="Ej. El Cuento Nicaragüense, Operaciones con Fracciones, El Sistema Solar...">
-        </div>
-
-        <div class="input-group">
-            <label>Indicador de Logro:</label>
-            <textarea id="indicador" placeholder="Redacta o deja que la IA lo proponga según el contenido..."></textarea>
-        </div>
-
-        <div class="grid-2">
-            <div class="input-group">
-                <label>Fecha:</label>
-                <input type="date" id="fecha">
-            </div>
-            <div class="input-group">
-                <label>Instrumento de Evaluación:</label>
-                <select id="instrumento">
-                    <option value="Lista de cotejo">Lista de cotejo</option>
-                    <option value="Rúbrica">Rúbrica</option>
-                    <option value="Escala de valoración">Escala de valoración</option>
-                </select>
-            </div>
-        </div>
-
-        <button onclick="verificarCreditosYGenerar()">🚀 Generar Plan de Clase Enriquecido con IA</button>
-    </div>
-
-    <!-- RESULTADO -->
-    <div class="card" id="result-card" style="display: none;">
-        <h3 style="color: var(--primary); border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-top:0;">📄 Plan Diario Oficial</h3>
-        <div id="plan-container" class="plan-output"></div>
-
-        <div class="action-btns" id="action-buttons-div">
-            <button class="btn-secondary" onclick="copiarTexto()">📋 Copiar al Portapapeles</button>
-            <button onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>
-        </div>
-    </div>
+    <h3>Plan Generado:</h3>
+    <div id="resultado">El plan generado aparecerá aquí...</div>
 </div>
 
 <script>
-    document.getElementById('fecha').valueAsDate = new Date();
+    let creditos = localStorage.getItem('nica_creditos');
+    if (creditos === null) {
+        creditos = 5;
+        localStorage.setItem('nica_creditos', creditos);
+    }
+    document.getElementById('contadorCreditos').innerText = `Créditos disponibles: ${creditos}`;
 
-    // Base de datos inteligente integrada para autocompletar unidades y contenidos según el MINED
-    const mallasCurriculares = {
-        "6to Grado": {
-            "Lengua y Literatura": {
-                unidad: "Unidad III: El Cuento y la Magia de la Lectura",
-                contenido: "El Cuento Nicaragüense: Estructura, personajes y análisis de elementos literarios",
-                indicador: "Interpreta con sentido crítico cuentos nicaragüenses identificando su estructura narrativa, mensaje y características socioculturales."
-            },
-            "Matemáticas": {
-                unidad: "Unidad II: Operaciones Avanzadas con Números Decimales y Fracciones",
-                contenido: "División de números decimales entre números naturales y decimales",
-                indicador: "Aplica algoritmos eficientes en la resolución de problemas prácticos de división con números decimales aplicados al entorno comercial."
-            },
-            "Ciencias Naturales": {
-                unidad: "Unidad III: La Dinámica de la Tierra y los Ecosistemas",
-                contenido: "Ecosistemas de Nicaragua: Biodiversidad, cadenas tróficas y conservación ambiental",
-                indicador: "Reconoce la importancia de la biodiversidad en los ecosistemas nicaragüenses y propone medidas concretas para su preservación."
-            },
-            "Ciencias Sociales": {
-                unidad: "Unidad II: Historia y Procesos Sociopolíticos de Nicaragua",
-                contenido: "Héroes y Mártires de la Patria: Legado histórico y soberanía nacional",
-                indicador: "Valora el legado histórico de los personajes ilustres de Nicaragua en la defensa de la soberanía y la autodeterminación."
-            }
-        },
-        "5to Grado": {
-            "Lengua y Literatura": {
-                unidad: "Unidad II: El Mundo de la Poesía y los Textos Narrativos",
-                contenido: "La Poesía Infantil y Juvenil: Rima, ritmo y figuras literarias básicas",
-                indicador: "Identifica la rima y el ritmo en poemas nicaragüenses expresando emociones mediante la lectura oral fluida."
-            },
-            "Matemáticas": {
-                unidad: "Unidad III: Fracciones y su Aplicación en la Vida Cotidiana",
-                contenido: "Suma y resta de fracciones con igual y diferente denominador",
-                indicador: "Resuelve problemas cotidianos que involucran la adición y sustracción de fracciones mediante la búsqueda de denominador común."
-            }
+    async function generarPlan() {
+        let currentCreditos = parseInt(localStorage.getItem('nica_creditos'));
+        if (currentCreditos <= 0) {
+            alert("Has agotado tus créditos gratuitos. Introduce un código de activación válido.");
+            return;
         }
-    };
 
-    function autocompletarCurriculo() {
+        const apiKey = document.getElementById('apiKey').value.trim();
         const grado = document.getElementById('grado').value;
-        const asignatura = document.getElementById('asignatura').value;
+        const contenido = document.getElementById('contenido').value.trim();
+        const resultadoDiv = document.getElementById('resultado');
 
-        if (mallasCurriculares[grado] && mallasCurriculares[grado][asignatura]) {
-            const data = mallasCurriculares[grado][asignatura];
-            document.getElementById('unidad').value = data.unidad;
-            document.getElementById('contenido').value = data.contenido;
-            document.getElementById('indicador').value = data.indicador;
-        } else {
-            // Valor por defecto inteligente si no está predefinido en el diccionario rápido
-            document.getElementById('unidad').value = "Unidad Académica del Currículo Nacional";
-            document.getElementById('contenido').value = "Estudio y aplicación práctica de saberes fundamentales de " + asignatura;
-            document.getElementById('indicador').value = "Aplica los conceptos fundamentales estudiados en situaciones del entorno escolar.";
+        if (!apiKey) {
+            alert("Por favor, introduce tu API Key de Gemini.");
+            return;
         }
-    }
-
-    // Ejecutar autocompletado al cargar por defecto
-    autocompletarCurriculo();
-
-    function actualizarContadorVisual() {
-        const esPro = localStorage.getItem("nica_planes_pro") === "activo";
-        if (esPro) {
-            document.getElementById("contador-creditos").innerText = "⭐ Cuenta Pro Activa (Generación Ilimitada)";
-            document.getElementById("contador-creditos").style.background = "#d1fae5";
-            document.getElementById("contador-creditos").style.borderColor = "#10b981";
-            document.getElementById("contador-creditos").style.color = "#065f46";
-        } else {
-            let creditos = localStorage.getItem("nica_planes_creditos");
-            if (creditos === null) creditos = 3;
-            document.getElementById("contador-creditos").innerText = `⚡ Te quedan ${creditos} planes de prueba gratuitos.`;
-        }
-    }
-
-    actualizarContadorVisual();
-
-    function verificarCreditosYGenerar() {
-        const esPro = localStorage.getItem("nica_planes_pro") === "activo";
-
-        if (!esPro) {
-            let creditos = localStorage.getItem("nica_planes_creditos");
-            if (creditos === null) {
-                creditos = 3;
-            } else {
-                creditos = parseInt(creditos);
-            }
-
-            if (creditos <= 0) {
-                mostrarModalPago();
-                return;
-            }
-
-            creditos--;
-            localStorage.setItem("nica_planes_creditos", creditos);
-            actualizarContadorVisual();
+        if (!contenido) {
+            alert("Por favor, ingresa el indicador de logro o contenido.");
+            return;
         }
 
-        llamarInteligenciaArtificial();
-    }
+        resultadoDiv.innerText = "Generando plan pedagógico con inteligencia artificial...";
 
-    function mostrarModalPago() {
-        document.getElementById('action-buttons-div').style.display = 'none';
-        document.getElementById('plan-container').innerHTML = `
-            <div style="text-align: center; padding: 20px; background: #fff1f2; border: 2px solid #f43f5e; border-radius: 8px;">
-                <h3 style="color: #be123c; margin-top:0;">🛑 ¡Se te acabaron los planes de prueba gratuitos!</h3>
-                <p>Para seguir generando planes ilimitados y enriquecidos con inteligencia artificial, activa tu cuenta <strong>Nica Planes Pro</strong>.</p>
-                <p style="font-size: 14px; color: #475569;">Escríbele al Profe Carlos para adquirir tu código de acceso.</p>
-                
-                <div style="margin-top: 15px;">
-                    <input type="text" id="codigo-activacion" placeholder="Ingresa tu código Pro aquí" style="max-width: 300px; display: inline-block; margin-right: 10px;">
-                    <button onclick="activarCodigoPro()" style="width: auto; padding: 10px 20px; display: inline-block;">Activar Cuenta</button>
-                </div>
-            </div>
-        `;
-        document.getElementById('result-card').style.display = 'block';
-    }
+        const promptSistema = `Actúa como un asistente docente experto en el Currículo Educativo de Nicaragua para la asignatura de Lengua y Literatura. Rellena la siguiente estructura pedagógica detalladamente basándote en este indicador/contenido: "${contenido}" para el grado "${grado}". No alteres los títulos de la estructura:
 
-    function activarCodigoPro() {
-        const codigoIngresado = document.getElementById('codigo-activacion').value.trim();
-        const codigoSecretoMaster = "NICAPLANES2026PRO"; 
-
-        if (codigoIngresado === codigoSecretoMaster) {
-            localStorage.setItem("nica_planes_pro", "activo");
-            alert("¡Código activado con éxito! Ahora tienes acceso ilimitado.");
-            location.reload();
-        } else {
-            alert("❌ Código incorrecto. Verifica con el administrador.");
-        }
-    }
-
-    async function llamarInteligenciaArtificial() {
-        const grado = document.getElementById('grado').value;
-        const asignatura = document.getElementById('asignatura').value;
-        const unidad = document.getElementById('unidad').value;
-        const contenido = document.getElementById('contenido').value;
-        const indicador = document.getElementById('indicador').value;
-        const fecha = document.getElementById('fecha').value;
-        const instrumento = document.getElementById('instrumento').value;
-
-        document.getElementById('action-buttons-div').style.display = 'none';
-        document.getElementById('plan-container').innerHTML = "<p style='text-align:center;'>⏳ El asistente pedagógico está redactando el contenido curricular completo, lecturas y ejercicios... Por favor espera unos segundos.</p>";
-        document.getElementById('result-card').style.display = 'block';
-
-        const promptMaestro = `
-        Actúa rigurosamente como un asesor pedagógico experto del Ministerio de Educación de Nicaragua (MINED). 
-        Tu tarea es redactar un PLAN DE CLASE DIARIO EXHAUSTIVO, COMPLETO y REAL (prohibido usar frases vacías como "muestra una lámina" o "lee el texto sin incluirlo"). Si pides una lectura, un ejercicio o una dinámica, DEBES ESCRIBIRLA TEXTUALMENTE Y DESARROLLARLA COMPLETA dentro de la actividad correspondiente.
-
-        Datos oficiales del plan:
-        - Asignatura: ${asignatura}
-        - Grado: ${grado}
-        - Unidad: ${unidad}
-        - Contenido Específico: ${contenido}
-        - Indicador de Logro: ${indicador}
-        - Fecha: ${fecha}
-        - Instrumento de Evaluación: ${instrumento}
-
-        ESTRUCTURA OBLIGATORIA A GENERAR (Usa etiquetas HTML limpias como <h4>, <p>, <ul>, <li>, <strong>):
-        - <h4>Plan Diario Asignatura: ${asignatura} | Fecha: ${fecha} | Grado: ${grado}</h4>
-        - <p><strong>Tiempo:</strong> 45 minutos</p>
-        - <p><strong>Nombre y número de Unidad:</strong> ${unidad}</p>
-        - <p><strong>Indicador de logro:</strong> ${indicador}</p>
-        
-        - <h4>Criterios de evaluación:</h4>
-          <ul>
-            <li><strong>*Conceptual:</strong> [Redacta los saberes teóricos específicos que el alumno debe dominar sobre ${contenido}].</li>
-            <li><strong>*Procedimental:</strong> [Redacta las habilidades y destrezas prácticas exactas que aplicará el alumno].</li>
-            <li><strong>*Actitudinal:</strong> [Redacta los valores de convivencia, respeto o identidad nicaragüense fomentados].</li>
-          </ul>
-
-        - <h4>Actividades de inicio:</h4>
-          [Redacta una dinámica de bienvenida real, preguntas detonantes específicas sobre ${contenido} para activar conocimientos previos, y conexión con el entorno comunitario nicaragüense].
-
-        - <h4>Actividades de desarrollo:</h4>
-          [DESARROLLA EL CONTENIDO PROFUNDAMENTE. Si es Lengua y Literatura, ESCRIBE AQUÍ UN FRAGMENTO DE LECTURA MODELO COMPLETO relacionado con el tema y 3 preguntas de comprensión lectora redactadas. Si es Matemáticas, ESCRIBE EL EJERCICIO RESUELTO PASO A PASO con su explicación técnica. Si es otra materia, redacta el marco teórico explicativo completo para que el maestro lo dicte o explique en clase].
-
-        - <h4>Actividades de Culminación:</h4>
-          [Plenaria con preguntas de cierre, conclusiones grupales y la aplicación directa del instrumento de evaluación (${instrumento}) con sus indicadores específicos a evaluar].
-
-        - <h4>Tarea práctica:</h4>
-          [Redacta un ejercicio o asignación concreta para realizar en casa vinculada al contenido].
-
-        - <h4>Adecuación curricular para niños con dificultades:</h4>
-          [Estrategias pedagógicas inclusivas específicas para apoyar al estudiante con dificultades de aprendizaje en este tema particular].
-        `;
+Plan Diario Asignatura: Lengua y Literatura
+• Fecha: [Fecha actual]
+• Tiempo: 45 minutos
+• Grado: ${grado}
+• Nombre y número de Unidad: 
+• Indicador de logro: ${contenido}
+• Contenido: 
+I. Criterios de Evaluación
+• *Conceptual: 
+• *Procedimental: 
+• *Actitudinal: 
+II. Actividades de Inicio
+• Saludo de bienvenida: 
+• Oración a Dios: 
+• Entonar el Himno Nacional: 
+• Dinámica para recordar tema anterior:
+• Revisión de tarea y asistencia: 
+• Dar a conocer el tema e indicador: 
+III. Actividades de Desarrollo
+• Presentación de lámina: 
+• Discriminación de imagen: 
+• Dinámica de opinión (Lluvia de ideas,etc..): 
+• Lectura Modelo (Docente):
+o Lectura Silenciosa y Coral: 
+o Comentarios Orales: 
+o Escritura: 
+o Trabajo en Parejas o grupos (Comprensión Lectora): En pares o grupos, los alumnos resuelven la siguiente guía en sus cuadernos: 
+ Nivel Literal: 
+ Nivel Inferencial: 
+ Nivel Crítico: 
+o Explicación del Docente: 
+IV. Actividades de Culminación y Evaluación
+o Culminación: 
+o Evaluación: 
+o Tarea: `;
 
         try {
-            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`, {
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    contents: [{ parts: [{ text: promptMaestro }] }]
+                    contents: [{ parts: [{ text: promptSistema }] }]
                 })
             });
 
             const data = await response.json();
             
-            if (data.candidates && data.candidates[0].content) {
-                const textoGenerado = data.candidates[0].content.parts[0].text;
-                document.getElementById('plan-container').innerHTML = textoGenerado;
-                document.getElementById('action-buttons-div').style.display = 'flex';
+            if (data.candidates && data.candidates[0].content.parts[0].text) {
+                const planGenerado = data.candidates[0].content.parts[0].text;
+                resultadoDiv.innerText = planGenerado;
+
+                currentCreditos--;
+                localStorage.setItem('nica_creditos', currentCreditos);
+                document.getElementById('contadorCreditos').innerText = `Créditos disponibles: ${currentCreditos}`;
             } else {
-                document.getElementById('plan-container').innerHTML = "<p style='color:red;'>La IA no pudo procesar la respuesta. Intenta de nuevo.</p>";
+                resultadoDiv.innerText = "Error al generar la respuesta de la IA. Revisa tu API Key.";
             }
         } catch (error) {
             console.error(error);
-            document.getElementById('plan-container').innerHTML = "<p style='color:red;'>Error de conexión con el servidor de IA.</p>";
+            resultadoDiv.innerText = "Ocurrió un error de conexión con la API de Gemini.";
         }
-    }
-
-    function copiarTexto() {
-        const texto = document.getElementById('plan-container').innerText;
-        navigator.clipboard.writeText(texto).then(() => {
-            alert("¡Plan copiado al portapapeles con éxito!");
-        });
     }
 </script>
 
