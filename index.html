@@ -26,7 +26,6 @@
             margin: 0 auto;
         }
 
-        /* Pantalla del Candado */
         #login-screen {
             background: var(--card);
             padding: 40px;
@@ -38,23 +37,29 @@
         }
 
         .input-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-align: left;
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-weight: 600;
+            font-size: 14px;
         }
 
-        select, input, button {
+        select, input, textarea, button {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             border: 1px solid #cbd5e1;
             border-radius: 6px;
             box-sizing: border-box;
-            font-size: 15px;
+            font-size: 14px;
+        }
+
+        textarea {
+            resize: vertical;
+            height: 80px;
         }
 
         button {
@@ -64,13 +69,14 @@
             font-weight: bold;
             cursor: pointer;
             transition: background 0.2s;
+            padding: 12px;
+            font-size: 15px;
         }
 
         button:hover {
             background-color: #1e40af;
         }
 
-        /* Aplicación Principal (Oculta al inicio) */
         #main-app {
             display: none;
         }
@@ -89,7 +95,6 @@
             gap: 15px;
         }
 
-        /* Estilo del Plan Generado */
         .plan-output {
             background: white;
             padding: 25px;
@@ -98,7 +103,6 @@
             margin-top: 20px;
         }
 
-        /* Recuadro de Plan de Pizarra (Matemática) */
         .pizarra-box {
             border: 2px solid #334155;
             padding: 15px;
@@ -125,7 +129,6 @@
         .btn-copy { background-color: var(--secondary); }
         .btn-copy:hover { background-color: #0f766e; }
 
-        /* Estilo para impresión limpia */
         @media print {
             body { padding: 0; background: white; }
             #login-screen, .card-controls, .action-btns, header { display: none !important; }
@@ -139,7 +142,7 @@
 
 <div class="container">
 
-    <!-- PANTALLA DE ACCESO / CANDADO -->
+    <!-- PANTALLA DE ACCESO -->
     <div id="login-screen">
         <h2>🔒 Nica Planes 2026</h2>
         <p>Ingrese su clave de acceso docente:</p>
@@ -150,11 +153,11 @@
         <p id="error-msg" style="color: red; display: none; margin-top: 10px;">Clave incorrecta. Intente de nuevo.</p>
     </div>
 
-    <!-- PANEL PRINCIPAL DE LA APP -->
+    <!-- PANEL PRINCIPAL -->
     <div id="main-app">
         <header style="margin-bottom: 20px; text-align: center;">
-            <h2>🇳🇮 Nica Planes 2026 - Generador de Planes Diarios</h2>
-            <p>Mallas Curriculares Oficiales (II y III Unidad Pedagógica)</p>
+            <h2>🇳🇮 Nica Planes 2026 - Generador Oficial</h2>
+            <p>Mallas Curriculares y Formatos Oficiales Actualizados</p>
         </header>
 
         <div class="card card-controls">
@@ -172,17 +175,32 @@
 
                 <div class="input-group">
                     <label>Asignatura:</label>
-                    <select id="select-asignatura" onchange="cargarContenidos()">
+                    <select id="select-asignatura" onchange="cargarContenidosPredefinidos()">
                         <option value="">-- Seleccione Asignatura --</option>
                     </select>
                 </div>
             </div>
 
             <div class="input-group">
-                <label>Unidad / Contenido / Indicador de Logro:</label>
-                <select id="select-contenido">
-                    <option value="">-- Seleccione Contenido/Indicador --</option>
+                <label>Autocompletar desde Malla (Opcional):</label>
+                <select id="select-autocompletar" onchange="aplicarAutocompletado()">
+                    <option value="">-- Seleccione para autocompletar o escriba abajo --</option>
                 </select>
+            </div>
+
+            <div class="input-group">
+                <label>Nombre y número de Unidad:</label>
+                <input type="text" id="input-unidad" placeholder="Ej. Unidad II: Cuentos e historias">
+            </div>
+
+            <div class="input-group">
+                <label>Contenido:</label>
+                <input type="text" id="input-contenido" placeholder="Ej. El Cuento: Estructura e ideas principales">
+            </div>
+
+            <div class="input-group">
+                <label>Indicador de Logro:</label>
+                <textarea id="input-indicador" placeholder="Escriba o seleccione el indicador de logro..."></textarea>
             </div>
 
             <div class="grid-2">
@@ -191,15 +209,30 @@
                     <input type="date" id="plan-fecha">
                 </div>
                 <div class="input-group">
-                    <label>Tiempo:</label>
-                    <input type="text" id="plan-tiempo" value="45'">
+                    <label>Tiempo Total:</label>
+                    <input type="text" id="plan-tiempo" value="45 minutos">
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="input-group">
+                    <label>Instrumento de Evaluación:</label>
+                    <select id="select-instrumento">
+                        <option value="Lista de cotejo">Lista de cotejo</option>
+                        <option value="Rúbrica">Rúbrica</option>
+                        <option value="Escala de valoración">Escala de valoración</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Tiempo por Momentos (Inicio / Desarrollo / Culminación):</label>
+                    <input type="text" id="plan-tiempos-momentos" value="10 min / 25 min / 10 min">
                 </div>
             </div>
 
             <button onclick="generarPlan()">Generar Plan Diario</button>
         </div>
 
-        <!-- RESULTADO DEL PLAN GENERADO -->
+        <!-- VISTA PREVIA -->
         <div class="card" id="result-card" style="display: none;">
             <h3>Vista Previa del Plan Diario</h3>
             <div id="plan-container" class="plan-output"></div>
@@ -214,7 +247,7 @@
 </div>
 
 <script>
-    // BASE DE DATOS DE LAS MALLAS CURRICULARES 2026
+    // BASE DE DATOS DE MALLAS CURRICULARES
     const mallas = {
         "3": {
             "Lengua y Literatura": [
@@ -223,6 +256,12 @@
             ],
             "Matemática": [
                 { unidad: "Unidad II: Geometría y Medición", indicador: "Calcula el perímetro de figuras geométricas regulares aplicándolo a la vida cotidiana.", contenido: "Cálculo de Perímetro", p: "Hallar el perímetro de una parcela rectangular de 4m de largo y 2m de ancho.", s: "4m + 2m + 4m + 2m = 12m", c: "El perímetro es la suma de los lados de una figura.", ej: "Calcular el perímetro de un cuadrado de 3cm de lado.", e: "Pág. 45 ejercicios 1 y 2.", tarea: "Página 46" }
+            ],
+            "Ciencias Naturales": [
+                { unidad: "Unidad II: El Cuerpo Humano", indicador: "Identifica las principales funciones de los órganos vitales del cuerpo humano.", contenido: "Los Órganos Vitales" }
+            ],
+            "Estudios Sociales": [
+                { unidad: "Unidad II: Nuestra Comunidad", indicador: "Reconoce los principales hitos históricos y geográficos del municipio.", contenido: "Geografía y Mapa Local" }
             ]
         },
         "4": {
@@ -231,6 +270,12 @@
             ],
             "Matemática": [
                 { unidad: "Unidad II: Fracciones", indicador: "Reconoce fracciones homogéneas y las representa gráficamente.", contenido: "Fracciones Homogéneas", p: "Representar 2/4 y 3/4 en una figura.", s: "Se divide la figura en 4 partes iguales y se pintan las indicadas.", c: "Las fracciones homogéneas tienen el mismo denominador.", ej: "Representar 1/3 y 2/3.", e: "Pág. 60 ejercicios A y B.", tarea: "Página 61" }
+            ],
+            "Ciencias Naturales": [
+                { unidad: "Unidad II: Los Eecosistemas", indicador: "Describe la flora y fauna característica de los ecosistemas locales.", contenido: "Eecosistemas de Nicaragua" }
+            ],
+            "Estudios Sociales": [
+                { unidad: "Unidad II: Regiones de Nicaragua", indicador: "Ubica geográficamente las regiones del país y sus características.", contenido: "Regiones del Pacífico y Central" }
             ]
         },
         "5": {
@@ -239,6 +284,12 @@
             ],
             "Matemática": [
                 { unidad: "Unidad III: Decimales y Porcentajes", indicador: "Resuelve problemas de suma y resta con números decimales en contextos cotidianos.", contenido: "Suma de Decimales", p: "María compra 2.5 lb de arroz y 1.25 lb de azúcar. ¿Cuánto pesa la compra?", s: "  2.50\n+ 1.25\n------\n  3.75 lb", c: "Para sumar decimales se alinea la coma o punto decimal.", ej: "Sumar 4.2 + 3.15", e: "Pág. 82 ejercicios 1a y 1b.", tarea: "Página 83" }
+            ],
+            "Ciencias Naturales": [
+                { unidad: "Unidad III: La Materia y Energía", indicador: "Explica los estados físicos de la materia y sus transformaciones.", contenido: "Estados de la Materia" }
+            ],
+            "Estudios Sociales": [
+                { unidad: "Unidad III: Historia Nacional", indicador: "Examina los procesos históricos clave en la formación de la nación.", contenido: "Historia de Nicaragua" }
             ]
         },
         "6": {
@@ -247,11 +298,16 @@
             ],
             "Matemática": [
                 { unidad: "Unidad III: Áreas de Figuras Planas", indicador: "Calcula el área del triángulo y paralelogramo aplicando las fórmulas correspondientes.", contenido: "Área del Triángulo", p: "Calcular el área de un triángulo de base 6cm y altura 4cm.", s: "Área = (Base x Altura) / 2 = (6 x 4) / 2 = 12 cm²", c: "El área del triángulo es la mitad de la base por la altura.", ej: "Calcular el área si base=8cm y altura=5cm.", e: "Pág. 94 ejercicios 1 y 2.", tarea: "Página 95" }
+            ],
+            "Ciencias Naturales": [
+                { unidad: "Unidad III: El Universo y la Tierra", indicador: "Comprende los movimientos de la Tierra y las capas atmosféricas.", contenido: "Movimientos de la Tierra" }
+            ],
+            "Estudios Sociales": [
+                { unidad: "Unidad III: Cívica y Ciudadanía", indicador: "Analiza los derechos y deberes ciudadanos establecidos en la Constitución.", contenido: "Derechos Ciudadanos" }
             ]
         }
     };
 
-    // CONTROL DE ACCESO (CANDADO)
     function checkAccess() {
         const key = document.getElementById("access-key").value;
         if (key === "nica2026") {
@@ -262,14 +318,13 @@
         }
     }
 
-    // CARGAR ASIGNATURAS EXCLUSIVAS DEL GRADO
     function cargarAsignaturas() {
         const grado = document.getElementById("select-grado").value;
         const selectAsig = document.getElementById("select-asignatura");
-        const selectCont = document.getElementById("select-contenido");
+        const selectAuto = document.getElementById("select-autocompletar");
         
         selectAsig.innerHTML = '<option value="">-- Seleccione Asignatura --</option>';
-        selectCont.innerHTML = '<option value="">-- Seleccione Contenido/Indicador --</option>';
+        selectAuto.innerHTML = '<option value="">-- Seleccione para autocompletar o escriba abajo --</option>';
 
         if (grado && mallas[grado]) {
             Object.keys(mallas[grado]).forEach(asig => {
@@ -281,110 +336,98 @@
         }
     }
 
-    // CARGAR CONTENIDOS Y MANTENER EL FILTRO ESTRICTO
-    function cargarContenidos() {
+    function cargarContenidosPredefinidos() {
         const grado = document.getElementById("select-grado").value;
         const asig = document.getElementById("select-asignatura").value;
-        const selectCont = document.getElementById("select-contenido");
+        const selectAuto = document.getElementById("select-autocompletar");
 
-        selectCont.innerHTML = '<option value="">-- Seleccione Contenido/Indicador --</option>';
+        selectAuto.innerHTML = '<option value="">-- Seleccione para autocompletar o escriba abajo --</option>';
 
         if (grado && asig && mallas[grado][asig]) {
             mallas[grado][asig].forEach((item, index) => {
                 const opt = document.createElement("option");
                 opt.value = index;
                 opt.textContent = `${item.unidad} - ${item.contenido}`;
-                selectCont.appendChild(opt);
+                selectAuto.appendChild(opt);
             });
         }
     }
 
-    // GENERAR EL PLAN SEGÚN LA MATERIA SELECCIONADA
+    function aplicarAutocompletado() {
+        const grado = document.getElementById("select-grado").value;
+        const asig = document.getElementById("select-asignatura").value;
+        const idx = document.getElementById("select-autocompletar").value;
+
+        if (idx !== "" && grado && asig) {
+            const data = mallas[grado][asig][idx];
+            document.getElementById("input-unidad").value = data.unidad || "";
+            document.getElementById("input-contenido").value = data.contenido || "";
+            document.getElementById("input-indicador").value = data.indicador || "";
+        }
+    }
+
     function generarPlan() {
         const grado = document.getElementById("select-grado").value;
         const asig = document.getElementById("select-asignatura").value;
-        const contIdx = document.getElementById("select-contenido").value;
+        const unidad = document.getElementById("input-unidad").value;
+        const contenido = document.getElementById("input-contenido").value;
+        const indicador = document.getElementById("input-indicador").value;
         const fecha = document.getElementById("plan-fecha").value || "Por definir";
         const tiempo = document.getElementById("plan-tiempo").value;
+        const instrumento = document.getElementById("select-instrumento").value;
+        const tiemposMomentos = document.getElementById("plan-tiempos-momentos").value;
 
-        if (!grado || !asig || contIdx === "") {
-            alert("Por favor seleccione Grado, Asignatura y Contenido.");
+        if (!grado || !asig) {
+            alert("Por favor seleccione Grado y Asignatura.");
             return;
         }
 
-        const data = mallas[grado][asig][contIdx];
         const container = document.getElementById("plan-container");
         let html = "";
 
         // FORMATO DE MATEMÁTICA (PLAN DE PIZARRA)
         if (asig === "Matemática") {
+            // Buscamos datos matemáticos precargados si existen, o usamos genéricos
+            let p = "Resolver la situación problemática planteada.", s = "Aplicación del algoritmo correspondiente.", c = "Conclusión matemática de la clase.", ej = "Ejemplo guiado.", e = "Ejercicios propuestos en el texto.", tarea = "Página asignada.";
+            if(mallas[grado]["Matemática"]) {
+                const match = mallas[grado]["Matemática"].find(m => m.contenido === contenido);
+                if(match) { p = match.p; s = match.s; c = match.c; ej = match.ej; e = match.e; tarea = match.tarea; }
+            }
+
             html = `
                 <h3 style="text-align:center; margin-top:0;">Formato para la elaboración del plan de clase de matemática</h3>
                 <p><strong>Asignatura:</strong> Matemática &nbsp;&nbsp;&nbsp; <strong>Grado:</strong> ${grado}.º &nbsp;&nbsp;&nbsp; <strong>Fecha:</strong> ${fecha} &nbsp;&nbsp;&nbsp; <strong>Tiempo:</strong> ${tiempo}</p>
-                <p><strong>No. Nombre de la Unidad:</strong> ${data.unidad}</p>
-                <p><strong>Indicador de Logro:</strong> ${data.indicador}</p>
-                <p><strong>Criterios de Evaluación:</strong></p>
+                <p><strong>Nombre y número de Unidad:</strong> ${unidad || "Unidad de Matemática"}</p>
+                <p><strong>Indicador de Logro:</strong> ${indicador || "Indicador matemático"}</p>
+                <p><strong>Contenido:</strong> ${contenido || "Contenido matemático"}</p>
+                <p><strong>I. Criterios de Evaluación:</strong></p>
                 <ul>
                     <li>• Comprende con claridad la situación problemática planteada.</li>
                     <li>• Aplica correctamente el procedimiento matemático en la solución.</li>
-                    <li>• Muestra interés y orden en la resolución de los ejercicios.</li>
+                    <li>• Muestra interés, orden y perseverancia en la resolución.</li>
                 </ul>
-                <p><strong>Aprendizaje esperado:</strong> Resuelve ejercicios del contenido aplicando los saberes construidos.</p>
-                <p><strong>Contenido:</strong> ${data.contenido}</p>
+                <p><strong>Instrumento de evaluación:</strong> ${instrumento}</p>
 
                 <!-- CUADRO PLAN DE PIZARRA -->
                 <div class="pizarra-box">
                     <div class="pizarra-header">
-                        <span>${data.unidad}</span>
+                        <span>${unidad}</span>
                         <span>${fecha}</span>
                     </div>
-                    <p><strong>SXCX: ${data.contenido}</strong></p>
-                    <p><strong>(P) Problema:</strong> ${data.p}</p>
-                    <p><strong>(S) Solución:</strong><br>${data.s.replace(/\n/g, '<br>')}</p>
-                    <p><strong>(C) Conclusión:</strong> ${data.c}</p>
-                    <p><strong>(Ej) Ejemplo:</strong> ${data.ej}</p>
-                    <p><strong>(E) Ejercicios:</strong> ${data.e}</p>
-                    <p style="text-align:right;"><strong>Tarea:</strong> ${data.tarea}</p>
+                    <p><strong>SXCX: ${contenido}</strong></p>
+                    <p><strong>(P) Problema:</strong> ${p}</p>
+                    <p><strong>(S) Solución:</strong><br>${s.replace(/\n/g, '<br>')}</p>
+                    <p><strong>(C) Conclusión:</strong> ${c}</p>
+                    <p><strong>(Ej) Ejemplo:</strong> ${ej}</p>
+                    <p><strong>(E) Ejercicios:</strong> ${e}</p>
+                    <p style="text-align:right;"><strong>Tarea:</strong> ${tarea}</p>
                 </div>
 
-                <p style="margin-top:15px;"><strong>Observaciones:</strong> __________________________________________________</p>
+                <p style="margin-top:15px;"><strong>Adecuación curricular para niños con dificultades de lectoescritura:</strong> Uso de material concreto, apoyo visual adicional, lectura guiada de los enunciados de los problemas y desglose de operaciones en pasos cortos.</p>
+                <p style="margin-top:10px;"><strong>Observaciones:</strong> __________________________________________________</p>
             `;
         } 
-        // FORMATO DE LENGUA Y LITERATURA / OTRAS ASIGNATURAS
+        // FORMATO DETALLADO DE LENGUA Y LITERATURA / OTRAS MATERIAS
         else {
             html = `
-                <h3 style="text-align:center; margin-top:0;">Plan Diario Asignatura</h3>
-                <p><strong>Plan Diario Asignatura:</strong> ${asig} &nbsp;&nbsp;&nbsp; <strong>Fecha:</strong> ${fecha} &nbsp;&nbsp;&nbsp; <strong>Tiempo:</strong> ${tiempo} &nbsp;&nbsp;&nbsp; <strong>Grado:</strong> ${grado}.º</p>
-                <p><strong>Nombre y número de Unidad:</strong> ${data.unidad}</p>
-                <p><strong>Indicador de logro:</strong> ${data.indicador}</p>
-                <p><strong>Criterios de evaluación:</strong></p>
-                <ul>
-                    <li><strong>*Conceptual:</strong> Identifica y comprende los conceptos clave de (${data.contenido}).</li>
-                    <li><strong>*Procedimental:</strong> Aplica técnicas de lectura, análisis o redacción de manera coherente.</li>
-                    <li><strong>*Actitudinal:</strong> Muestra respeto, participación activa y colaboración en equipo.</li>
-                </ul>
-                <p><strong>Actividades de inicio:</strong> Dinámica de activación, exploración de saberes previos y presentación del propósito del tema.</p>
-                <p><strong>Actividades de desarrollo:</strong> Estudio guiado de (${data.contenido}), análisis de textos o ejemplos prácticos, y trabajo colaborativo para profundizar en el aprendizaje.</p>
-                <p><strong>Actividades de Culminación:</strong> Puesta en común, plenaria general y síntesis de los puntos principales abordados en la sesión.</p>
-                <p><strong>Actividades de evaluación:</strong> Evaluación formativa continua mediante lista de cotejo o guía de observación.</p>
-                <p><strong>Tarea:</strong> Ejercicio de refuerzo en casa sobre el contenido estudiado.</p>
-                <p><strong>Adecuación curricular para niños con las dificultades:</strong> Brindar apoyo personalizado, uso de esquemas visuales y flexibilidad en los tiempos de entrega.</p>
-            `;
-        }
-
-        container.innerHTML = html;
-        document.getElementById("result-card").style.display = "block";
-    }
-
-    // COPIAR AL PORTAPAPELES
-    function copiarPlan() {
-        const text = document.getElementById("plan-container").innerText;
-        navigator.clipboard.writeText(text).then(() => {
-            alert("¡Plan copiado al portapapeles con éxito!");
-        });
-    }
-</script>
-
-</body>
-</html>
-
+                <h3 style="tex
