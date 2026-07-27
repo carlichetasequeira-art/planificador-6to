@@ -23,362 +23,95 @@
     }
   }
 </script>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Planificador Metodológico de Matemática 6.° Grado - NICAMATE</title>
-    <style>
-        :root {
-            --primary-color: #1e3a8a;
-            --primary-hover: #1e40af;
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --text-color: #1e293b;
-            --border-color: #cbd5e1;
-            --accent-color: #15803d;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planificador Metodológico de Matemática 6.° Grado - NICAMATE</title>
+  <style>
+    :root {
+      --primary-color: #1e3a8a;
+      --primary-hover: #1e40af;
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --text-color: #1e293b;
+      --border-color: #cbd5e1;
+      --accent-color: #15803d;
+    }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 20px;
-            line-height: 1.5;
-        }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 20px;
+      line-height: 1.5;
+    }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-        }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
 
-        h1 {
-            color: var(--primary-color);
-            font-size: 24px;
-            text-align: center;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-        }
+    h1 {
+      color: var(--primary-color);
+      font-size: 24px;
+      text-align: center;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+    }
 
-        p.subtitle {
-            text-align: center;
-            color: #64748b;
-            font-size: 14px;
-            margin-top: 0;
-            margin-bottom: 25px;
-            font-weight: 500;
-        }
+    p.subtitle {
+      text-align: center;
+      color: #64748b;
+      font-size: 14px;
+      margin-top: 0;
+      margin-bottom: 25px;
+      font-weight: 500;
+    }
 
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
 
-        .form-group {
-            margin-bottom: 15px;
-        }
+    .form-group {
+      margin-bottom: 15px;
+    }
 
-        .form-group.full-width {
-            grid-column: span 2;
-        }
+    .form-group.full-width {
+      grid-column: span 2;
+    }
 
-        label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 6px;
-            color: #334155;
-            font-size: 13px;
-        }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #334155;
+      font-size: 13px;
+    }
 
-        input, select, textarea {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            font-size: 14px;
-            box-sizing: border-box;
-            background-color: #fff;
-            transition: border-color 0.2s;
-        }
-
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
-        }
-
-        .api-key-box {
-            background-color: #f1f5f9;
-            border: 1px dashed var(--border-color);
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        button {
-            width: 100%;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 14px;
-            font-size: 16px;
-            font-weight: 700;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            margin-top: 10px;
-        }
-
-        button:hover {
-            background-color: var(--primary-hover);
-        }
-
-        .result-box {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-        }
-
-        .result-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 10px;
-        }
-
-        .result-title {
-            font-weight: bold;
-            color: var(--primary-color);
-            font-size: 18px;
-        }
-
-        pre {
-            background: #f8fafc;
-            padding: 20px;
-            border: 1px solid #e2e8f0;
-            border-radius: 6px;
-            white-space: pre-wrap;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 13px;
-            color: #0f172a;
-            line-height: 1.6;
-            overflow-x: auto;
-        }
-
-        .btn-copy {
-            background-color: var(--accent-color);
-            width: auto;
-            padding: 8px 16px;
-            font-size: 14px;
-            margin-top: 0;
-        }
-
-        .btn-copy:hover {
-            background-color: #166534;
-        }
-
-        @media (max-width: 640px) {
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            .form-group.full-width {
-                grid-column: span 1;
-            }
-        }
-    </style>
+    input, select, textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+  </style>
 </head>
 <body>
-
-<div class="container">
-    <h1>Generador Metodológico de Matemática 6.° Grado</h1>
-    <p class="subtitle">Alineado a la Guía Metodológica NICAMATE | Fidelidad Textual del Plan Pizarra</p>
-
-    <div class="api-key-box">
-        <div class="form-group" style="margin-bottom: 0;">
-            <label for="apiKey">Clave API de Gemini (Google AI Studio - Gratuita):</label>
-            <input type="password" id="apiKey" placeholder="Pega tu API Key (AIzaSy...)" required>
-        </div>
-    </div>
-
-    <form id="planForm">
-        <div class="form-grid">
-            <div class="form-group">
-                <label for="colegio">Colegio (Opcional):</label>
-                <input type="text" id="colegio" placeholder="Ej: Escuela Primaria San Martín">
-            </div>
-
-            <div class="form-group">
-                <label for="fecha">Fecha (Opcional):</label>
-                <input type="date" id="fecha">
-            </div>
-
-            <div class="form-group">
-                <label for="unidad">Número y Nombre de la Unidad:</label>
-                <input type="text" id="unidad" placeholder="Ej: Unidad 8: Área de Triángulos y Cuadriláteros" required>
-            </div>
-
-            <div class="form-group">
-                <label for="seccionContenido">Sección (S) y Contenido (C):</label>
-                <input type="text" id="seccionContenido" placeholder="Ej: S1, C1" required>
-            </div>
-
-            <div class="form-group full-width">
-                <label for="nombreContenido">Nombre Específico del Contenido:</label>
-                <input type="text" id="nombreContenido" placeholder="Ej: Área del paralelogramo a partir de la del rectángulo" required>
-            </div>
-
-            <div class="form-group full-width">
-                <label for="textoGuia">Texto / Captura de la Guía Metodológica para este Contenido (Recomendado para Transcripción Literal):</label>
-                <textarea id="textoGuia" rows="5" placeholder="Pega aquí el texto, imágenes de la guía o detalles del P, S, C, E, Ej para asegurar transcripción exacta sin errores."></textarea>
-            </div>
-        </div>
-
-        <button type="submit" id="btnGenerar">🚀 Generar Plan de Clase Oficial (6.° Grado)</button>
-    </form>
-
-    <div class="result-box" id="resultBox" style="display:none;">
-        <div class="result-header">
-            <span class="result-title">Plan de Clase Estructurado</span>
-            <button class="btn-copy" onclick="copiarPlan()">📋 Copiar Plan Completo</button>
-        </div>
-        <pre id="outputPlan"></pre>
-    </div>
-</div>
-
-<script>
-document.getElementById('planForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-
-    const apiKey = document.getElementById('apiKey').value.trim();
-    const colegio = document.getElementById('colegio').value.trim() || '[ ]';
-    const fecha = document.getElementById('fecha').value || '[ ]';
-    const unidad = document.getElementById('unidad').value.trim();
-    const seccionContenido = document.getElementById('seccionContenido').value.trim();
-    const nombreContenido = document.getElementById('nombreContenido').value.trim();
-    const textoGuia = document.getElementById('textoGuia').value.trim();
-
-    if (!apiKey) {
-        alert('Por favor ingresa tu Clave API de Gemini.');
-        return;
-    }
-
-    const btn = document.getElementById('btnGenerar');
-    const resultBox = document.getElementById('resultBox');
-    const outputPlan = document.getElementById('outputPlan');
-
-    btn.innerText = "⏳ Consultando Guía Metodológica y Generando Plan...";
-    btn.disabled = true;
-
-    // Construcción del System Prompt con las REGLAS DE ORO
-    const systemInstruction = `Eres un docente especialista y metodólogo de Matemáticas para 6.° grado de Educación Primaria. Tu función principal es elaborar planes de clase precisos, rigurosos y perfectamente alineados con la Guía Metodológica de Matemáticas de 6.° Grado (NICAMATE).
-
-### REGLAS DE ORO Y BÚSQUEDA ANTI-ERROR (¡CRÍTICO!)
-1. PROTOCOLO DE LOCALIZACIÓN Y ALINEACIÓN ESPECÍFICA (S Y C):
-   - Alinea el plan específicamente a la Sección (${seccionContenido}) y Contenido (${nombreContenido}) solicitados.
-   - El Indicador de logro y Criterios de evaluación (Conceptual, Procedimental y Actitudinal) DEBEN responder ÚNICA Y EXCLUSIVAMENTE a la Sección y Contenido solicitados, NO de forma general para toda la unidad.
-
-2. FIDELIDAD TEXTUAL ABSOLUTA EN EL PLAN PIZARRA (¡SÚPER CRÍTICO!):
-   - Queda ESTRICTAMENTE PROHIBIDO resumir, redactar con tus propias palabras, inventar, alterar o parafrasear el Problema (P), Solución (S), Conclusión (C), Ejemplo (E) o Ejercitación (Ej).
-   - TRANSCRIBE DE MANERA LITERAL Y EXACTA (palabra por palabra, número por número, fórmula por fórmula) el texto del Problema, Solución, Conclusión, Ejemplo y Ejercitación.
-   - Incluye TODOS los ejercicios de la Ejercitación sin omitir ninguno.
-
-3. ADAPTABILIDAD DE GRADO: Consulta exclusivamente el enfoque y contenidos de 6.° grado.
-
-4. FIDELIDAD ESTRUCTURAL Y GRÁFICA:
-   - Replica figuras geométricas o diagramas usando caracteres de texto (arte ASCII, tablas) o proporciona una descripción detallada paso a paso indicando cómo debe dibujarse en la pizarra.
-
-5. EVALUACIÓN OBLIGATORIA:
-   - Incluye SIEMPRE un instrumento de evaluación (Rúbrica analítica, Escala de valoración o Registro descriptivo). Queda ESTRICTAMENTE PROHIBIDA la lista de cotejo.
-
-### ESTRUCTURA OBLIGATORIA DE SALIDA
-
-DATOS GENERALES
-Colegio: ${colegio}
-Fecha: ${fecha}
-Grado: 6.° Grado
-Asignatura: Matemática
-Indicador de logro: [Específico del Contenido ${seccionContenido}]
-Criterios de evaluación:
-  * Conceptual: [Específico de ${seccionContenido}]
-  * Procedimental: [Específico de ${seccionContenido}]
-  * Actitudinal: [Específico de ${seccionContenido}]
-Unidad: ${unidad}
-Contenido: ${nombreContenido}
-S: ${seccionContenido}
-Aprendizaje esperado: [Objetivo específico según la guía de 6.° Grado]
-
-ACTIVIDADES DIDÁCTICAS
-Actividades de inicio: [Resumen de la motivación, conocimientos previos o repaso según la guía para esa clase]
-
-PLAN PIZARRA
-* Problema (P): [TRANSCRIPCIÓN LITERAL Y EXACTA DEL PROBLEMA]
-* Solución (S): [TRANSCRIPCIÓN LITERAL Y EXACTA DE LA SOLUCIÓN Y PASOS]
-* Conclusión (C): [TRANSCRIPCIÓN LITERAL Y EXACTA DE LA REGLA/CONCEPTO]
-* Ejemplo (E): [TRANSCRIPCIÓN LITERAL DEL EJEMPLO (SI APLICA)]
-* Ejercitación (Ej): [TRANSCRIPCIÓN LITERAL DE TODOS LOS EJERCICIOS]
-
-CIERRE Y TRABAJO EN CASA
-Tarea: [Ejercicios asignados según la guía]
-
-INSTRUMENTO DE EVALUACIÓN
-[Rúbrica Analítica, Escala de Valoración o Registro Descriptivo evaluando Conceptual, Procedimental y Actitudinal. Sin lista de cotejo]`;
-
-    const userQuery = `Por favor elabora el plan de clase exacto para 6.° Grado con los siguientes datos:
-- Unidad: ${unidad}
-- Sección y Contenido: ${seccionContenido}
-- Nombre del Contenido: ${nombreContenido}
-${textoGuia ? `- TEXTO DE APOYO/GUÍA PROPORCIONADO POR EL DOCENTE:\n${textoGuia}` : ''}`;
-
-    try {
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                contents: [{
-                    parts: [{ text: systemInstruction + "\n\n" + userQuery }]
-                }]
-            })
-        });
-
-        const data = await response.json();
-
-        if (data.candidates && data.candidates[0].content.parts[0].text) {
-            outputPlan.innerText = data.candidates[0].content.parts[0].text;
-            resultBox.style.display = 'block';
-            resultBox.scrollIntoView({ behavior: 'smooth' });
-        } else {
-            alert('Error al generar el plan. Revisa tu API Key o los campos ingresados.');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Hubo un problema al conectar con la API de Gemini.');
-    } finally {
-        btn.innerText = "🚀 Generar Plan de Clase Oficial (6.° Grado)";
-        btn.disabled = false;
-    }
-});
-
-function copiarPlan() {
-    const texto = document.getElementById('outputPlan').innerText;
-    navigator.clipboard.writeText(texto).then(() => {
-        alert('¡Plan de clase copiado exitosamente al portapapeles!');
-    });
-}
-</script>
-
+  <div class="container">
+    <h1>Planificador de 6.º Grado</h1>
+    <p class="subtitle">Herramienta Didáctica Docente</p>
+    <p style="text-align:center;">¡Acceso verificado correctamente!</p>
+  </div>
 </body>
 </html>
