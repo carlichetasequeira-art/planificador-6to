@@ -1,3 +1,29 @@
+<script>
+  // Tu lista de códigos únicos para cada cliente
+  const codigosAutorizados = [
+    "PROF-8492",
+    "PROF-3105",
+    "PROF-7724",
+    "PROF-1092"
+  ];
+
+  // Verifica si el cliente ya puso su clave en este teléfono
+  let accesoConcedido = localStorage.getItem("acceso_planificador");
+
+  if (!accesoConcedido || !codigosAutorizados.includes(accesoConcedido)) {
+    let claveIngresada = prompt("Bienvenido al Planificador de 6.º Grado.\n\nIngresa tu código de acceso personal:");
+
+    if (codigosAutorizados.includes(claveIngresada)) {
+      localStorage.setItem("acceso_planificador", claveIngresada);
+      alert("¡Acceso concedido! Bienvenido.");
+    } else {
+      alert("Código incorrecto o no autorizado. Contacta al Profe por WhatsApp para activar tu clave.");
+      document.write("<div style='text-align:center; padding:50px; font-family:sans-serif;'><h2>⛔ Acceso No Autorizado</h2><p>Contacta al administrador para adquirir tu clave personal de acceso.</p></div>");
+      window.stop();
+    }
+  }
+</script>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
