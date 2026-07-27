@@ -147,7 +147,7 @@
         <h2>🔒 Nica Planes 2026</h2>
         <p>Ingrese su código de acceso autorizado:</p>
         <div class="input-group">
-            <input type="password" id="access-key" placeholder="Código de acceso...">
+            <input type="text" id="access-key" placeholder="Ej. NX-7492-K">
         </div>
         <button onclick="checkAccess()">Ingresar al Sistema</button>
         <p id="error-msg" style="color: red; display: none; margin-top: 10px;">Código incorrecto o no autorizado.</p>
@@ -261,14 +261,16 @@
         "GH-7382-W", "JK-4920-E", "LZ-8153-R", "XCV-309-K", "BNM-714-L", "QWE-582-P", "RTY-936-M", "UIO-417-J", "ASD-628-H", "FGH-195-G"
     ];
 
-    // VERIFICAR ACCESO CON LOS CÓDIGOS
+    // VERIFICAR ACCESO CON LOS CÓDIGOS (CORREGIDO)
     function checkAccess() {
         const key = document.getElementById("access-key").value.trim();
+        const errorMsg = document.getElementById("error-msg");
+
         if (codigosAutorizados.includes(key)) {
             document.getElementById("login-screen").style.display = "none";
             document.getElementById("main-app").style.display = "block";
         } else {
-            document.getElementById("error-msg").style.display = "block";
+            errorMsg.style.display = "block";
         }
     }
 
@@ -419,4 +421,94 @@
                     <li>• Comprende con claridad la situación problemática planteada.</li>
                     <li>• Aplica correctamente el procedimiento matemático en la solución.</li>
                     <li>• Muestra interés, orden y perseverancia en la resolución.</li>
-        
+                </ul>
+                <p><strong>Instrumento de evaluación:</strong> ${instrumento}</p>
+
+                <!-- CUADRO PLAN DE PIZARRA -->
+                <div class="pizarra-box">
+                    <div class="pizarra-header">
+                        <span>${unidad}</span>
+                        <span>${fecha}</span>
+                    </div>
+                    <p><strong>SXCX: ${contenido}</strong></p>
+                    <p><strong>(P) Problema:</strong> ${p}</p>
+                    <p><strong>(S) Solución:</strong><br>${s.replace(/\n/g, '<br>')}</p>
+                    <p><strong>(C) Conclusión:</strong> ${c}</p>
+                    <p><strong>(Ej) Ejemplo:</strong> ${ej}</p>
+                    <p><strong>(E) Ejercicios:</strong> ${e}</p>
+                    <p style="text-align:right;"><strong>Tarea:</strong> ${tarea}</p>
+                </div>
+
+                <p style="margin-top:15px;"><strong>Adecuación curricular para niños con dificultades de lectoescritura:</strong> Uso de material concreto, apoyo visual adicional, lectura guiada de los enunciados de los problemas y desglose de operaciones en pasos cortos.</p>
+                <p style="margin-top:10px;"><strong>Observaciones:</strong> __________________________________________________</p>
+            `;
+        } 
+        // FORMATO DETALLADO DE LENGUA Y LITERATURA / OTRAS MATERIAS
+        else {
+            html = `
+                <h3 style="text-align:center; margin-top:0;">Plan Diario Asignatura</h3>
+                <p><strong>Plan Diario Asignatura:</strong> ${asig}</p>
+                <p><strong>Fecha:</strong> ${fecha} &nbsp;&nbsp;&nbsp; <strong>Tiempo:</strong> ${tiempo} (${tiemposMomentos}) &nbsp;&nbsp;&nbsp; <strong>Grado:</strong> ${grado}.º</p>
+                <p><strong>Nombre y número de Unidad:</strong> ${unidad || "Unidad correspondiente"}</p>
+                <p><strong>Indicador de logro:</strong> ${indicador || "Indicador correspondiente"}</p>
+                <p><strong>Contenido:</strong> ${contenido || "Contenido correspondiente"}</p>
+
+                <p><strong>I. Criterios de Evaluación:</strong></p>
+                <ul>
+                    <li>• *Conceptual: Identifica y comprende la estructura y conceptos clave de (${contenido}).</li>
+                    <li>• *Procedimental: Aplica estrategias de análisis, lectura y producción de textos de forma coherente.</li>
+                    <li>• *Actitudinal: Muestra respeto, participación activa y colaboración en las dinámicas grupales.</li>
+                </ul>
+                <p><strong>Instrumento de evaluación:</strong> ${instrumento}</p>
+
+                <p><strong>II. Actividades de Inicio:</strong></p>
+                <ul>
+                    <li>• Saludo de bienvenida: Intercambio afectuoso y cordial con los estudiantes.</li>
+                    <li>• Oración a Dios: Agradecimiento y encomienda del día en un ambiente de respeto.</li>
+                    <li>• Entonar el Himno Nacional: Fomento de los valores patrios e identidad nacional.</li>
+                    <li>• Dinámica para recordar tema anterior: Preguntas exploratorias y retroalimentación breve.</li>
+                    <li>• Revisión de tarea y asistencia: Verificación del cumplimiento de responsabilidades en casa.</li>
+                    <li>• Dar a conocer el tema e indicador: Explicación clara de lo que se aprenderá hoy (${contenido}).</li>
+                </ul>
+
+                <p><strong>III. Actividades de Desarrollo:</strong></p>
+                <ul>
+                    <li>• Presentación de lámina: Exhibición de recurso visual relacionado con (${contenido}).</li>
+                    <li>• Discriminación de imagen: Análisis guiado sobre los elementos observados en la lámina.</li>
+                    <li>• Dinámica de opinión (Lluvia de ideas, etc.): Intervención abierta para conocer las impresiones del grupo.</li>
+                    <li>• Lectura Modelo (Docente): Demostración de entonación, pausas y modulación de voz por parte del profesor.</li>
+                    <li>&nbsp;&nbsp;&nbsp;&nbsp;- Lectura Silenciosa y Coral: Práctica individual y conjunta del texto de estudio.</li>
+                    <li>&nbsp;&nbsp;&nbsp;&nbsp;- Comentarios Orales: Plenaria sobre las ideas principales captadas en la lectura.</li>
+                    <li>&nbsp;&nbsp;&nbsp;&nbsp;- Escritura: Registro de apuntes esenciales en los cuadernos de trabajo.</li>
+                    <li>&nbsp;&nbsp;&nbsp;&nbsp;- Trabajo en Parejas o grupos (Comprensión Lectora): En pares o grupos, los alumnos resuelven la siguiente guía en sus cuadernos:</li>
+                    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;• Nivel Literal: ¿Qué información explícita se destaca en el texto estudiado?</li>
+                    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;• Nivel Inferencial: ¿Qué deducciones o relaciones lógicas podemos extraer del contenido?</li>
+                    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;• Nivel Crítico: ¿Cuál es su opinión fundamentada acerca de la temática abordada?</li>
+                    <li>• Explicación del Docente: Consolidación teórica y aclaración de conceptos complejos sobre (${contenido}).</li>
+                </ul>
+
+                <p><strong>IV. Actividades de Culminación y Evaluación:</strong></p>
+                <ul>
+                    <li>• Culminación: Síntesis global de la jornada y conclusiones generales en plenaria.</li>
+                    <li>• Evaluación: Aplicación de la herramienta de evaluación (${instrumento}) para verificar el logro del indicador.</li>
+                    <li>• Tarea: Asignación de ejercicio complementario para afianzar el contenido en casa.</li>
+                </ul>
+
+                <p><strong>Adecuación curricular para niños con dificultades de lectoescritura:</strong> Asignación de un tutor par de apoyo, facilitación de textos con tipografía ampliada o fragmentos más cortos, uso de esquemas gráficos y flexibilidad en los tiempos de ejecución de lectura y escritura.</p>
+            `;
+        }
+
+        container.innerHTML = html;
+        document.getElementById("result-card").style.display = "block";
+    }
+
+    function copiarPlan() {
+        const text = document.getElementById("plan-container").innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            alert("¡Plan copiado al portapapeles con éxito!");
+        });
+    }
+</script>
+
+</body>
+</html>
