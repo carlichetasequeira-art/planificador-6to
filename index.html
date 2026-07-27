@@ -3,38 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nica Planes 2026 - Lengua y Literatura</title>
+    <title>Nica Planes 2026 - Generador Inteligente</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; }
-        .container { max-width: 900px; margin: auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        h1 { color: #2c3e50; text-align: center; }
-        label { font-weight: bold; display: block; margin-top: 15px; color: #34495e; }
-        input, select, textarea { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
-        button { background-color: #27ae60; color: white; border: none; padding: 12px 20px; font-size: 16px; border-radius: 5px; cursor: pointer; margin-top: 20px; width: 100%; }
-        button:hover { background-color: #219653; }
-        #resultado { margin-top: 25px; padding: 20px; background: #ecf0f1; border-radius: 5px; white-space: pre-wrap; line-height: 1.5; }
-        .creditos { text-align: right; font-size: 14px; color: #7f8c8d; margin-bottom: 10px; }
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #0d9488;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .card {
+            background: var(--card);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+            border: 1px solid #e2e8f0;
+        }
+        h2 {
+            color: var(--primary);
+            text-align: center;
+            margin-top: 0;
+        }
+        .input-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #334155;
+        }
+        select, input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 14px;
+            background-color: #fff;
+        }
+        textarea {
+            resize: vertical;
+            height: 70px;
+        }
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background-color: #1e40af;
+        }
+        #resultado {
+            margin-top: 25px;
+            padding: 20px;
+            background: #f1f5f9;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            line-height: 1.6;
+            border: 1px solid #cbd5e1;
+            font-family: monospace;
+        }
+        .creditos {
+            text-align: right;
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Nica Planes 2026</h1>
-    <div class="creditos" id="contadorCreditos">Créditos disponibles: 5</div>
+    <div class="card">
+        <h2>Nica Planes 2026</h2>
+        <div class="creditos" id="contadorCreditos">Créditos disponibles: 5</div>
 
-    <label for="apiKey">Clave de API de Gemini:</label>
-    <input type="password" id="apiKey" placeholder="Pega tu API Key de Google AI Studio aquí">
+        <div class="input-group">
+            <label for="apiKey">Clave de API de Gemini:</label>
+            <input type="password" id="apiKey" placeholder="Pega tu API Key de Google AI Studio aquí">
+        </div>
 
-    <label for="grado">Grado:</label>
-    <input type="text" id="grado" value="Quinto Grado" placeholder="Ej. Quinto Grado o Sexto Grado">
+        <div class="input-group">
+            <label for="asignatura">Asignatura:</label>
+            <select id="asignatura">
+                <option value="Lengua y Literatura">Lengua y Literatura</option>
+                <option value="Matemática">Matemática</option>
+                <option value="Creciendo en Valores">Creciendo en Valores</option>
+                <option value="Derechos y Dignidad de las Mujeres">Derechos y Dignidad de las Mujeres</option>
+                <option value="Estudios Sociales / Ciencias Naturales">Estudios Sociales / Ciencias Naturales</option>
+            </select>
+        </div>
 
-    <label for="contenido">Indicador de logro y Contenido principal:</label>
-    <textarea id="contenido" rows="3" placeholder="Ej. Analizar la estructura del cuento y su comprensión lectora..."></textarea>
+        <div class="input-group">
+            <label for="grado">Grado:</label>
+            <select id="grado">
+                <option value="Tercer Grado">Tercer Grado</option>
+                <option value="Cuarto Grado">Cuarto Grado</option>
+                <option value="Quinto Grado">Quinto Grado</option>
+                <option value="Sexto Grado">Sexto Grado</option>
+            </select>
+        </div>
 
-    <button onclick="generarPlan()">Generar Plan de Lengua y Literatura con IA</button>
+        <div class="input-group">
+            <label for="unidad">Nombre y número de Unidad:</label>
+            <input type="text" id="unidad" placeholder="Ej. Unidad III: Nos cuidamos y convivimos con respeto">
+        </div>
 
-    <h3>Plan Generado:</h3>
-    <div id="resultado">El plan generado aparecerá aquí...</div>
+        <div class="input-group">
+            <label for="indicador">Indicador de logro / Contenido principal:</label>
+            <textarea id="indicador" placeholder="Ej. Analiza la estructura del cuento y su comprensión lectora..."></textarea>
+        </div>
+
+        <div class="input-group">
+            <label for="conceptual">Criterio Conceptual (Opcional - déjalo vacío para que la IA lo complete):</label>
+            <textarea id="conceptual" placeholder="Ej. Identificación de los elementos principales de la narración..."></textarea>
+        </div>
+
+        <div class="input-group">
+            <label for="procedimental">Criterio Procedimental (Opcional):</label>
+            <textarea id="procedimental" placeholder="Ej. Aplicación de técnicas de lectura comprensiva y análisis..."></textarea>
+        </div>
+
+        <div class="input-group">
+            <label for="actitudinal">Criterio Actitudinal (Opcional):</label>
+            <textarea id="actitudinal" placeholder="Ej. Muestra interés y respeto en la lectura colectiva e individual..."></textarea>
+        </div>
+
+        <button onclick="generarPlan()">Generar Plan Diario con IA</button>
+
+        <h3>Plan Generado:</h3>
+        <div id="resultado">El plan generado aparecerá aquí...</div>
+    </div>
 </div>
 
 <script>
@@ -48,39 +170,46 @@
     async function generarPlan() {
         let currentCreditos = parseInt(localStorage.getItem('nica_creditos'));
         if (currentCreditos <= 0) {
-            alert("Has agotado tus créditos gratuitos. Introduce un código de activación válido.");
+            alert("Has agotado tus créditos gratuitos.");
             return;
         }
 
         const apiKey = document.getElementById('apiKey').value.trim();
+        const asignatura = document.getElementById('asignatura').value;
         const grado = document.getElementById('grado').value;
-        const contenido = document.getElementById('contenido').value.trim();
+        const unidad = document.getElementById('unidad').value.trim();
+        const indicador = document.getElementById('indicador').value.trim();
+        const conceptual = document.getElementById('conceptual').value.trim();
+        const procedimental = document.getElementById('procedimental').value.trim();
+        const actitudinal = document.getElementById('actitudinal').value.trim();
         const resultadoDiv = document.getElementById('resultado');
 
         if (!apiKey) {
             alert("Por favor, introduce tu API Key de Gemini.");
             return;
         }
-        if (!contenido) {
-            alert("Por favor, ingresa el indicador de logro o contenido.");
+        if (!unidad || !indicador) {
+            alert("Por favor, completa al menos la Unidad y el Indicador de logro.");
             return;
         }
 
-        resultadoDiv.innerText = "Generando plan pedagógico con inteligencia artificial...";
+        resultadoDiv.innerText = "Conectando con la IA y estructurando el plan pedagógico...";
 
-        const promptSistema = `Actúa como un asistente docente experto en el Currículo Educativo de Nicaragua para la asignatura de Lengua y Literatura. Rellena la siguiente estructura pedagógica detalladamente basándote en este indicador/contenido: "${contenido}" para el grado "${grado}". No alteres los títulos de la estructura:
+        const promptSistema = `Actúa como un asistente docente experto en el Currículo Educativo de Nicaragua. Completa y redacta el resto del plan diario de clase para la asignatura "${asignatura}" en el grado "${grado}", basándote estrictamente en los datos provistos por el docente. 
 
-Plan Diario Asignatura: Lengua y Literatura
+Usa exactamente la siguiente estructura de Lengua y Literatura (o adáptala coherentemente si la asignatura es otra, manteniendo el rigor del formato MINED):
+
+Plan Diario Asignatura: ${asignatura}
 • Fecha: [Fecha actual]
 • Tiempo: 45 minutos
 • Grado: ${grado}
-• Nombre y número de Unidad: 
-• Indicador de logro: ${contenido}
-• Contenido: 
+• Nombre y número de Unidad: ${unidad}
+• Indicador de logro: ${indicador}
+• Contenido: [Generar contenido coherente al indicador]
 I. Criterios de Evaluación
-• *Conceptual: 
-• *Procedimental: 
-• *Actitudinal: 
+• *Conceptual: ${conceptual ? conceptual : '[IA: Generar criterio conceptual adecuado]'}
+• *Procedimental: ${procedimental ? procedimental : '[IA: Generar criterio procedimental adecuado]'}
+• *Actitudinal: ${actitudinal ? actitudinal : '[IA: Generar criterio actitudinal adecuado]'}
 II. Actividades de Inicio
 • Saludo de bienvenida: 
 • Oración a Dios: 
@@ -118,21 +247,21 @@ o Tarea: `;
             const data = await response.json();
             
             if (data.candidates && data.candidates[0].content.parts[0].text) {
-                const planGenerado = data.candidates[0].content.parts[0].text;
-                resultadoDiv.innerText = planGenerado;
+                resultadoDiv.innerText = data.candidates[0].content.parts[0].text;
 
                 currentCreditos--;
                 localStorage.setItem('nica_creditos', currentCreditos);
                 document.getElementById('contadorCreditos').innerText = `Créditos disponibles: ${currentCreditos}`;
             } else {
-                resultadoDiv.innerText = "Error al generar la respuesta de la IA. Revisa tu API Key.";
+                resultadoDiv.innerText = "Error de respuesta de la API: " + JSON.stringify(data);
             }
         } catch (error) {
             console.error(error);
-            resultadoDiv.innerText = "Ocurrió un error de conexión con la API de Gemini.";
+            resultadoDiv.innerText = "Ocurrió un error crítico de red o de ejecución al conectar con la API.";
         }
     }
 </script>
 
 </body>
 </html>
+
