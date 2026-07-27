@@ -1,117 +1,390 @@
-<script>
-  // Tu lista de códigos únicos para cada cliente
-  const codigosAutorizados = [
-    "PROF-8492",
-    "PROF-3105",
-    "PROF-7724",
-    "PROF-1092"
-  ];
-
-  // Verifica si el cliente ya puso su clave en este teléfono
-  let accesoConcedido = localStorage.getItem("acceso_planificador");
-
-  if (!accesoConcedido || !codigosAutorizados.includes(accesoConcedido)) {
-    let claveIngresada = prompt("Bienvenido al Planificador de 6.º Grado.\n\nIngresa tu código de acceso personal:");
-
-    if (codigosAutorizados.includes(claveIngresada)) {
-      localStorage.setItem("acceso_planificador", claveIngresada);
-      alert("¡Acceso concedido! Bienvenido.");
-    } else {
-      alert("Código incorrecto o no autorizado. Contacta al Profe por WhatsApp para activar tu clave.");
-      document.write("<div style='text-align:center; padding:50px; font-family:sans-serif;'><h2>⛔ Acceso No Autorizado</h2><p>Contacta al administrador para adquirir tu clave personal de acceso.</p></div>");
-      window.stop();
-    }
-  }
-</script>
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Planificador Metodológico de Matemática 6.° Grado - NICAMATE</title>
-  <style>
-    :root {
-      --primary-color: #1e3a8a;
-      --primary-hover: #1e40af;
-      --bg-color: #f8fafc;
-      --card-bg: #ffffff;
-      --text-color: #1e293b;
-      --border-color: #cbd5e1;
-      --accent-color: #15803d;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nica Planes 2026 - Generador Oficial</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #0d9488;
+            --bg: #f1f5f9;
+            --card: #ffffff;
+            --text: #1e293b;
+        }
 
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      margin: 0;
-      padding: 20px;
-      line-height: 1.5;
-    }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+        }
 
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      background: var(--card-bg);
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-    }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
 
-    h1 {
-      color: var(--primary-color);
-      font-size: 24px;
-      text-align: center;
-      margin-bottom: 5px;
-      text-transform: uppercase;
-    }
+        /* Pantalla del Candado */
+        #login-screen {
+            background: var(--card);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            margin: 100px auto;
+        }
 
-    p.subtitle {
-      text-align: center;
-      color: #64748b;
-      font-size: 14px;
-      margin-top: 0;
-      margin-bottom: 25px;
-      font-weight: 500;
-    }
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
 
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-    }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
 
-    .form-group {
-      margin-bottom: 15px;
-    }
+        select, input, button {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 15px;
+        }
 
-    .form-group.full-width {
-      grid-column: span 2;
-    }
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
 
-    label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: #334155;
-      font-size: 13px;
-    }
+        button:hover {
+            background-color: #1e40af;
+        }
 
-    input, select, textarea {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      font-size: 14px;
-      box-sizing: border-box;
-    }
-  </style>
+        /* Aplicación Principal (Oculta al inicio) */
+        #main-app {
+            display: none;
+        }
+
+        .card {
+            background: var(--card);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        /* Estilo del Plan Generado */
+        .plan-output {
+            background: white;
+            padding: 25px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        /* Recuadro de Plan de Pizarra (Matemática) */
+        .pizarra-box {
+            border: 2px solid #334155;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f8fafc;
+            margin-top: 15px;
+        }
+
+        .pizarra-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-copy { background-color: var(--secondary); }
+        .btn-copy:hover { background-color: #0f766e; }
+
+        /* Estilo para impresión limpia */
+        @media print {
+            body { padding: 0; background: white; }
+            #login-screen, .card-controls, .action-btns, header { display: none !important; }
+            #main-app { display: block !important; }
+            .card { box-shadow: none; padding: 0; }
+            .plan-output { border: none; padding: 0; }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Planificador de 6.º Grado</h1>
-    <p class="subtitle">Herramienta Didáctica Docente</p>
-    <p style="text-align:center;">¡Acceso verificado correctamente!</p>
-  </div>
+
+<div class="container">
+
+    <!-- PANTALLA DE ACCESO / CANDADO -->
+    <div id="login-screen">
+        <h2>🔒 Nica Planes 2026</h2>
+        <p>Ingrese su clave de acceso docente:</p>
+        <div class="input-group">
+            <input type="password" id="access-key" placeholder="Contraseña...">
+        </div>
+        <button onclick="checkAccess()">Ingresar al Sistema</button>
+        <p id="error-msg" style="color: red; display: none; margin-top: 10px;">Clave incorrecta. Intente de nuevo.</p>
+    </div>
+
+    <!-- PANEL PRINCIPAL DE LA APP -->
+    <div id="main-app">
+        <header style="margin-bottom: 20px; text-align: center;">
+            <h2>🇳🇮 Nica Planes 2026 - Generador de Planes Diarios</h2>
+            <p>Mallas Curriculares Oficiales (II y III Unidad Pedagógica)</p>
+        </header>
+
+        <div class="card card-controls">
+            <div class="grid-2">
+                <div class="input-group">
+                    <label>Grado:</label>
+                    <select id="select-grado" onchange="cargarAsignaturas()">
+                        <option value="">-- Seleccione el Grado --</option>
+                        <option value="3">3.º Grado (II Unidad)</option>
+                        <option value="4">4.º Grado (II Unidad)</option>
+                        <option value="5">5.º Grado (III Unidad)</option>
+                        <option value="6">6.º Grado (III Unidad)</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Asignatura:</label>
+                    <select id="select-asignatura" onchange="cargarContenidos()">
+                        <option value="">-- Seleccione Asignatura --</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Unidad / Contenido / Indicador de Logro:</label>
+                <select id="select-contenido">
+                    <option value="">-- Seleccione Contenido/Indicador --</option>
+                </select>
+            </div>
+
+            <div class="grid-2">
+                <div class="input-group">
+                    <label>Fecha:</label>
+                    <input type="date" id="plan-fecha">
+                </div>
+                <div class="input-group">
+                    <label>Tiempo:</label>
+                    <input type="text" id="plan-tiempo" value="45'">
+                </div>
+            </div>
+
+            <button onclick="generarPlan()">Generar Plan Diario</button>
+        </div>
+
+        <!-- RESULTADO DEL PLAN GENERADO -->
+        <div class="card" id="result-card" style="display: none;">
+            <h3>Vista Previa del Plan Diario</h3>
+            <div id="plan-container" class="plan-output"></div>
+
+            <div class="action-btns">
+                <button class="btn-copy" onclick="copiarPlan()">📋 Copiar Plan</button>
+                <button onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // BASE DE DATOS DE LAS MALLAS CURRICULARES 2026
+    const mallas = {
+        "3": {
+            "Lengua y Literatura": [
+                { unidad: "Unidad II: Cuentos E historias", indicador: "Aplica estrategias de comprensión lectora en la lectura de cuentos locales.", contenido: "El Cuento: Estructura e ideas principales." },
+                { unidad: "Unidad II: Cuentos E historias", indicador: "Redacta oraciones simples respetando las reglas ortográficas del uso de la mayúscula y el punto.", contenido: "La oración simple y ortografía." }
+            ],
+            "Matemática": [
+                { unidad: "Unidad II: Geometría y Medición", indicador: "Calcula el perímetro de figuras geométricas regulares aplicándolo a la vida cotidiana.", contenido: "Cálculo de Perímetro", p: "Hallar el perímetro de una parcela rectangular de 4m de largo y 2m de ancho.", s: "4m + 2m + 4m + 2m = 12m", c: "El perímetro es la suma de los lados de una figura.", ej: "Calcular el perímetro de un cuadrado de 3cm de lado.", e: "Pág. 45 ejercicios 1 y 2.", tarea: "Página 46" }
+            ]
+        },
+        "4": {
+            "Lengua y Literatura": [
+                { unidad: "Unidad II: Textos Informativos", indicador: "Infiere la idea central en noticias y textos informativos breves.", contenido: "La Noticia: Estructura y análisis." }
+            ],
+            "Matemática": [
+                { unidad: "Unidad II: Fracciones", indicador: "Reconoce fracciones homogéneas y las representa gráficamente.", contenido: "Fracciones Homogéneas", p: "Representar 2/4 y 3/4 en una figura.", s: "Se divide la figura en 4 partes iguales y se pintan las indicadas.", c: "Las fracciones homogéneas tienen el mismo denominador.", ej: "Representar 1/3 y 2/3.", e: "Pág. 60 ejercicios A y B.", tarea: "Página 61" }
+            ]
+        },
+        "5": {
+            "Lengua y Literatura": [
+                { unidad: "Unidad III: La Narrativa y sus Elementos", indicador: "Analiza los elementos narrativos (personajes, ambiente, tiempo) en mitos y leyendas nicaragüenses.", contenido: "La Leyenda Nicaragüense." }
+            ],
+            "Matemática": [
+                { unidad: "Unidad III: Decimales y Porcentajes", indicador: "Resuelve problemas de suma y resta con números decimales en contextos cotidianos.", contenido: "Suma de Decimales", p: "María compra 2.5 lb de arroz y 1.25 lb de azúcar. ¿Cuánto pesa la compra?", s: "  2.50\n+ 1.25\n------\n  3.75 lb", c: "Para sumar decimales se alinea la coma o punto decimal.", ej: "Sumar 4.2 + 3.15", e: "Pág. 82 ejercicios 1a y 1b.", tarea: "Página 83" }
+            ]
+        },
+        "6": {
+            "Lengua y Literatura": [
+                { unidad: "Unidad III: Textos Expositivos y Argumentativos", indicador: "Redacta textos expositivos respetando la estructura de introducción, desarrollo y conclusión.", contenido: "El Ensayo Breve." }
+            ],
+            "Matemática": [
+                { unidad: "Unidad III: Áreas de Figuras Planas", indicador: "Calcula el área del triángulo y paralelogramo aplicando las fórmulas correspondientes.", contenido: "Área del Triángulo", p: "Calcular el área de un triángulo de base 6cm y altura 4cm.", s: "Área = (Base x Altura) / 2 = (6 x 4) / 2 = 12 cm²", c: "El área del triángulo es la mitad de la base por la altura.", ej: "Calcular el área si base=8cm y altura=5cm.", e: "Pág. 94 ejercicios 1 y 2.", tarea: "Página 95" }
+            ]
+        }
+    };
+
+    // CONTROL DE ACCESO (CANDADO)
+    function checkAccess() {
+        const key = document.getElementById("access-key").value;
+        if (key === "nica2026") {
+            document.getElementById("login-screen").style.display = "none";
+            document.getElementById("main-app").style.display = "block";
+        } else {
+            document.getElementById("error-msg").style.display = "block";
+        }
+    }
+
+    // CARGAR ASIGNATURAS EXCLUSIVAS DEL GRADO
+    function cargarAsignaturas() {
+        const grado = document.getElementById("select-grado").value;
+        const selectAsig = document.getElementById("select-asignatura");
+        const selectCont = document.getElementById("select-contenido");
+        
+        selectAsig.innerHTML = '<option value="">-- Seleccione Asignatura --</option>';
+        selectCont.innerHTML = '<option value="">-- Seleccione Contenido/Indicador --</option>';
+
+        if (grado && mallas[grado]) {
+            Object.keys(mallas[grado]).forEach(asig => {
+                const opt = document.createElement("option");
+                opt.value = asig;
+                opt.textContent = asig;
+                selectAsig.appendChild(opt);
+            });
+        }
+    }
+
+    // CARGAR CONTENIDOS Y MANTENER EL FILTRO ESTRICTO
+    function cargarContenidos() {
+        const grado = document.getElementById("select-grado").value;
+        const asig = document.getElementById("select-asignatura").value;
+        const selectCont = document.getElementById("select-contenido");
+
+        selectCont.innerHTML = '<option value="">-- Seleccione Contenido/Indicador --</option>';
+
+        if (grado && asig && mallas[grado][asig]) {
+            mallas[grado][asig].forEach((item, index) => {
+                const opt = document.createElement("option");
+                opt.value = index;
+                opt.textContent = `${item.unidad} - ${item.contenido}`;
+                selectCont.appendChild(opt);
+            });
+        }
+    }
+
+    // GENERAR EL PLAN SEGÚN LA MATERIA SELECCIONADA
+    function generarPlan() {
+        const grado = document.getElementById("select-grado").value;
+        const asig = document.getElementById("select-asignatura").value;
+        const contIdx = document.getElementById("select-contenido").value;
+        const fecha = document.getElementById("plan-fecha").value || "Por definir";
+        const tiempo = document.getElementById("plan-tiempo").value;
+
+        if (!grado || !asig || contIdx === "") {
+            alert("Por favor seleccione Grado, Asignatura y Contenido.");
+            return;
+        }
+
+        const data = mallas[grado][asig][contIdx];
+        const container = document.getElementById("plan-container");
+        let html = "";
+
+        // FORMATO DE MATEMÁTICA (PLAN DE PIZARRA)
+        if (asig === "Matemática") {
+            html = `
+                <h3 style="text-align:center; margin-top:0;">Formato para la elaboración del plan de clase de matemática</h3>
+                <p><strong>Asignatura:</strong> Matemática &nbsp;&nbsp;&nbsp; <strong>Grado:</strong> ${grado}.º &nbsp;&nbsp;&nbsp; <strong>Fecha:</strong> ${fecha} &nbsp;&nbsp;&nbsp; <strong>Tiempo:</strong> ${tiempo}</p>
+                <p><strong>No. Nombre de la Unidad:</strong> ${data.unidad}</p>
+                <p><strong>Indicador de Logro:</strong> ${data.indicador}</p>
+                <p><strong>Criterios de Evaluación:</strong></p>
+                <ul>
+                    <li>• Comprende con claridad la situación problemática planteada.</li>
+                    <li>• Aplica correctamente el procedimiento matemático en la solución.</li>
+                    <li>• Muestra interés y orden en la resolución de los ejercicios.</li>
+                </ul>
+                <p><strong>Aprendizaje esperado:</strong> Resuelve ejercicios del contenido aplicando los saberes construidos.</p>
+                <p><strong>Contenido:</strong> ${data.contenido}</p>
+
+                <!-- CUADRO PLAN DE PIZARRA -->
+                <div class="pizarra-box">
+                    <div class="pizarra-header">
+                        <span>${data.unidad}</span>
+                        <span>${fecha}</span>
+                    </div>
+                    <p><strong>SXCX: ${data.contenido}</strong></p>
+                    <p><strong>(P) Problema:</strong> ${data.p}</p>
+                    <p><strong>(S) Solución:</strong><br>${data.s.replace(/\n/g, '<br>')}</p>
+                    <p><strong>(C) Conclusión:</strong> ${data.c}</p>
+                    <p><strong>(Ej) Ejemplo:</strong> ${data.ej}</p>
+                    <p><strong>(E) Ejercicios:</strong> ${data.e}</p>
+                    <p style="text-align:right;"><strong>Tarea:</strong> ${data.tarea}</p>
+                </div>
+
+                <p style="margin-top:15px;"><strong>Observaciones:</strong> __________________________________________________</p>
+            `;
+        } 
+        // FORMATO DE LENGUA Y LITERATURA / OTRAS ASIGNATURAS
+        else {
+            html = `
+                <h3 style="text-align:center; margin-top:0;">Plan Diario Asignatura</h3>
+                <p><strong>Plan Diario Asignatura:</strong> ${asig} &nbsp;&nbsp;&nbsp; <strong>Fecha:</strong> ${fecha} &nbsp;&nbsp;&nbsp; <strong>Tiempo:</strong> ${tiempo} &nbsp;&nbsp;&nbsp; <strong>Grado:</strong> ${grado}.º</p>
+                <p><strong>Nombre y número de Unidad:</strong> ${data.unidad}</p>
+                <p><strong>Indicador de logro:</strong> ${data.indicador}</p>
+                <p><strong>Criterios de evaluación:</strong></p>
+                <ul>
+                    <li><strong>*Conceptual:</strong> Identifica y comprende los conceptos clave de (${data.contenido}).</li>
+                    <li><strong>*Procedimental:</strong> Aplica técnicas de lectura, análisis o redacción de manera coherente.</li>
+                    <li><strong>*Actitudinal:</strong> Muestra respeto, participación activa y colaboración en equipo.</li>
+                </ul>
+                <p><strong>Actividades de inicio:</strong> Dinámica de activación, exploración de saberes previos y presentación del propósito del tema.</p>
+                <p><strong>Actividades de desarrollo:</strong> Estudio guiado de (${data.contenido}), análisis de textos o ejemplos prácticos, y trabajo colaborativo para profundizar en el aprendizaje.</p>
+                <p><strong>Actividades de Culminación:</strong> Puesta en común, plenaria general y síntesis de los puntos principales abordados en la sesión.</p>
+                <p><strong>Actividades de evaluación:</strong> Evaluación formativa continua mediante lista de cotejo o guía de observación.</p>
+                <p><strong>Tarea:</strong> Ejercicio de refuerzo en casa sobre el contenido estudiado.</p>
+                <p><strong>Adecuación curricular para niños con las dificultades:</strong> Brindar apoyo personalizado, uso de esquemas visuales y flexibilidad en los tiempos de entrega.</p>
+            `;
+        }
+
+        container.innerHTML = html;
+        document.getElementById("result-card").style.display = "block";
+    }
+
+    // COPIAR AL PORTAPAPELES
+    function copiarPlan() {
+        const text = document.getElementById("plan-container").innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            alert("¡Plan copiado al portapapeles con éxito!");
+        });
+    }
+</script>
+
 </body>
 </html>
+
